@@ -76,4 +76,9 @@ public class Compte {
 		this.setSolde(this.getSolde() - montant);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		return this.no == ((Compte) obj).getNo();
+	}
+
 }
