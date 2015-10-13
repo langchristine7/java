@@ -75,7 +75,25 @@ public class Compte {
 
 	@Override
 	public boolean equals(Object obj) {
-		return this.no == ((Compte) obj).getNo();
+		if (obj == null) {
+			return false;
+		}
+		if (obj == this) {
+			return true;
+		}
+		if (obj instanceof Client) {
+			Client c = (Client) obj;
+			return this.getNo() == c.getNo();
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		if (this.getNo() == 0) {
+			return super.hashCode();
+		}
+		return (this.getClass().getName() + "_" + this.getNo()).hashCode();
 	}
 
 }
