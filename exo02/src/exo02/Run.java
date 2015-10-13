@@ -67,7 +67,8 @@ public class Run {
 		tab[2] = new Point2D();
 		tab[3] = new Point3D();
 
-		// Point3Dv2 p13 = new Point3Dv2();
+		Point3Dv2 p13 = new Point3Dv2();
+		System.out.println(p13.getXx());
 
 	}
 
