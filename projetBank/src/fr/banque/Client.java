@@ -157,7 +157,12 @@ public class Client {
 	}
 
 	public void ajouterCompte(Compte compte) {
-		if ((compte == null) || (this.nbComptes == Client.MAX_COMPTES)) {
+		if (compte == null) {
+			System.err.println("ajouterCompte : compte est null");
+			return;
+		}
+		if (this.nbComptes == Client.MAX_COMPTES) {
+			System.out.println("Le nombre de comptes maximum est atteint : " + Client.MAX_COMPTES);
 			return;
 		}
 		if (this.comptes == null) {
