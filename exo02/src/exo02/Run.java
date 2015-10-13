@@ -58,6 +58,16 @@ public class Run {
 		p11.afficher();
 		p11.translater(10, 15, 20);
 		p11.afficher();
+		Point2D p4 = new Point3D(55, 55, 55);
+		p4.afficher();
+
+		Object[] tab = new Object[10];
+		tab[0] = new Point2D();
+		tab[1] = new Point3D();
+		tab[2] = new Point2D();
+		tab[3] = new Point3D();
+
+		// Point3Dv2 p13 = new Point3Dv2();
 
 	}
 
