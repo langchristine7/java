@@ -1,18 +1,18 @@
 package exo02;
 
-public class Point3D2v2 {
+public class Point3Dv2 {
 
 	Point2D p;
 	private int z;
 
-	public Point3D2v2() {
+	public Point3Dv2() {
 		this(0, 0, 0);
 	}
 
 	/**
 	 * @param z
 	 */
-	public Point3D2v2(int x, int y, int z) {
+	public Point3Dv2(int x, int y, int z) {
 		this.p = new Point2D(x, y);
 		this.setZ(z);
 	}
