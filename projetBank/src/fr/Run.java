@@ -1,12 +1,16 @@
 package fr;
 import fr.banque.Client;
 import fr.banque.Compte;
+import fr.banque.FactoryCompte;
 
 public class Run {
 	public static void main(String[] args) {
-		Compte c1 = new Compte(120);
+
+		FactoryCompte facCompte = FactoryCompte.getInstance();
+
+		Compte c1 = facCompte.creerCompte();
 		c1.afficher();
-		Compte c2 = new Compte();
+		Compte c2 = facCompte.creerCompte();
 		c2.afficher();
 
 		c1.ajouter(200);

@@ -3,19 +3,23 @@ package fr.banque;
 public class Compte {
 	private int no;
 	private double solde;
-	private static int dernierNo = 0;
+	// private static int dernierNo = 0;
 
 	/**
 	 * Creation compte par defaut solde = 0
 	 */
-	public Compte() {
+	Compte() {
 		this(0);
 	}
 
-	public Compte(double solde) {
+	Compte(double solde) {
 		super();
 		this.solde = solde;
-		this.no = ++Compte.dernierNo;
+		// this.no = ++Compte.dernierNo;
+	}
+
+	void setNo(int no) {
+		this.no = no;
 	}
 
 	/**
@@ -38,13 +42,6 @@ public class Compte {
 	 */
 	public int getNo() {
 		return this.no;
-	}
-
-	/**
-	 * @return the dernierNo
-	 */
-	public static int getDernierNo() {
-		return Compte.dernierNo;
 	}
 
 	/*
