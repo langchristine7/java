@@ -35,14 +35,16 @@ public class Point3D extends Point2D {
 	public String toString (){
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(super.toString());
+		buffer.delete(buffer.length() - 1, buffer.length());
 		buffer.append(", z = ").append(this.getZ());
+		buffer.append(']');
 		return buffer.toString();
 	}
 
-	@Override
-	public void afficher() {
-		System.out.println(this.toString());
-	}
+	// @Override
+	// public void afficher() {
+	// System.out.println(this.toString());
+	// }
 
 	public void translater (int dX, int dY, int dZ){
 		super.translater(dX, dY);

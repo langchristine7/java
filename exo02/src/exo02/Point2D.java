@@ -1,10 +1,10 @@
 package exo02;
 
 public class Point2D {
-	private int x, y;
+	private int xx, y;
 
 	/**
-	 * @param x
+	 * @param xx
 	 * @param y
 	 */
 
@@ -12,7 +12,7 @@ public class Point2D {
 	}
 
 	public Point2D(int x, int y) {
-		this.setX(x);
+		this.setXx(x);
 		this.setY(y);
 	}
 
@@ -34,12 +34,12 @@ public class Point2D {
 	/**
 	 * @return the x
 	 */
-	public int getX() {
-		return this.x;
+	public int getXx() {
+		return this.xx;
 	}
 
-	public void setX(int valX) {
-		this.x = valX;
+	public void setXx(int valX) {
+		this.xx = valX;
 	}
 
 	/*
@@ -50,16 +50,16 @@ public class Point2D {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("x=");
+		builder.append("[ x=");
 		builder.append(this.getY());
 		builder.append(", y=");
-		builder.append(this.getX());
+		builder.append(this.getXx());
+		builder.append(" ]");
 		return builder.toString();
 	}
 
 	public void afficher() {
-		System.out.print("x = " + this.getX());
-		System.out.println(" y = " + this.getY());
+		System.out.println(this.toString());
 	}
 
 	public void translater(int dX, int dY) {
@@ -67,7 +67,7 @@ public class Point2D {
 		// this.x += dX; this.y += dY;
 		//
 		// prefer :
-		this.setX(this.getX() + dX);
+		this.setXx(this.getXx() + dX);
 		this.setY(this.getY() + dY);
 	}
 }

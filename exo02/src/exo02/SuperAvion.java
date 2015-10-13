@@ -1,6 +1,6 @@
 package exo02;
 
-public class Avion<T> {
+public class SuperAvion<T> {
 
 	private T[] soute;
 	private int taille;
@@ -19,11 +19,11 @@ public class Avion<T> {
 	 *
 	 */
 
-	public Avion() {
-		this(Avion.TAILLE_DEFAULT);
+	public SuperAvion() {
+		this(SuperAvion.TAILLE_DEFAULT);
 	}
 
-	public Avion(int taille) {
+	public SuperAvion(int taille) {
 		this.taille = taille;
 	}
 
