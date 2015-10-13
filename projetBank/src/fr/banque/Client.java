@@ -137,9 +137,18 @@ public class Client {
 		builder.append(this.getAge());
 		builder.append(", getNo()=");
 		builder.append(this.getNo());
-		builder.append(", getComptes()=");
-		builder.append(Arrays.toString(this.getComptes()));
-		builder.append("]");
+
+		if (this.getComptes() != null) {
+			builder.append(", nbComptes=");
+			builder.append(this.getComptes().length);
+			builder.append(", getComptes()=");
+			builder.append(Arrays.toString(this.getComptes()));
+		} else {
+			builder.append(", pas de comptes");
+		}
+
+		builder.append("] ");
+
 		return builder.toString();
 	}
 
@@ -148,13 +157,11 @@ public class Client {
 	}
 
 	public void ajouterCompte(Compte compte) {
-		if (compte == null) {
+		if ((compte == null) || (this.nbComptes == Client.MAX_COMPTES)) {
 			return;
 		}
-		if (this.nbComptes == Client.MAX_COMPTES) {
-			if (this.comptes == null) {
-				this.comptes = new Compte[Client.MAX_COMPTES];
-			}
+		if (this.comptes == null) {
+			this.comptes = new Compte[Client.MAX_COMPTES];
 		}
 		this.comptes[this.nbComptes++] = compte;
 	}

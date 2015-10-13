@@ -30,14 +30,15 @@ public class Run {
 		client2.afficher();
 
 		// recherche du compte no 3
-		Compte cpt3 = client2.getCompte(1);
 
-		if (cpt3==null) {
-			System.out.print("Client ");
-			System.out.print(client2.getNom());
-			System.out.println(" ne contient pas le compte recherche ");
-		} else {
-			cpt3.afficher();
-		}
+		// Compte cpt3 = client2.getCompte(1);
+
+		// if (cpt3==null) {
+		// System.out.print("Client ");
+		// System.out.print(client2.getNom());
+		// System.out.println(" ne contient pas le compte recherche ");
+		// } else {
+		// cpt3.afficher();
+		// }
 	}
 }
