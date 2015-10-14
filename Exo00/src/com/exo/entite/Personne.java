@@ -1,5 +1,7 @@
 package com.exo.entite;
 
+import java.io.Serializable;
+
 /**
  * I am a person
  *
@@ -7,7 +9,7 @@ package com.exo.entite;
  *
  *         visibilite package intentionnelle
  */
-class Personne {
+class Personne implements IMonInterface, Cloneable, Serializable, Comparable<Personne>, IPersonne {
 
 	/**
 	 * my properties
@@ -35,6 +37,50 @@ class Personne {
 		this.setAge(age);
 	}
 
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(Personne o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.exo.entite.IMonInterface#faireQQChose()
+	 */
+	@Override
+	public void faireQQChose() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.exo.entite.IMonInterface#calculerUnNombre(int)
+	 */
+	@Override
+	public int calculerUnNombre(int unA) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return super.clone();
+	}
 
 	@Override
 	protected void finalize() throws Throwable {
@@ -106,7 +152,7 @@ class Personne {
 
 		if (obj instanceof Personne) { // marche meme si heritage
 			//if (obj.getClass() == Personne.class) {
-			Personne objPers = (Personne) obj;
+			IPersonne objPers = (IPersonne) obj;
 			return ( (this.getNom() == objPers.getNom()) || (this.getNom().equals(objPers.getNom())
 					&& ((this.getPrenom() == objPers.getPrenom())
 							|| this.getPrenom().equals(objPers.getPrenom()))
@@ -125,40 +171,50 @@ class Personne {
 		Personne.compteur = compteur;
 	}
 
-	/**
-	 * @return the prenom
+	/* (non-Javadoc)
+	 * @see com.exo.entite.IPersonne#getPrenom()
 	 */
+	@Override
 	public String getPrenom() {
 		return this.prenom == null ? "" : this.prenom;
 	}
 
-	/**
-	 * @param prenom
-	 *            the prenom to set
+	/* (non-Javadoc)
+	 * @see com.exo.entite.IPersonne#setPrenom(java.lang.String)
 	 */
+	@Override
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
 
-	/**
-	 * @return the age
+	/* (non-Javadoc)
+	 * @see com.exo.entite.IPersonne#getAge()
 	 */
+	@Override
 	public int getAge() {
 		return this.age;
 	}
 
-	/**
-	 * @param age
-	 *            the age to set
+	/* (non-Javadoc)
+	 * @see com.exo.entite.IPersonne#setAge(int)
 	 */
+	@Override
 	public void setAge(int age) {
 		this.age = age;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.exo.entite.IPersonne#getNom()
+	 */
+	@Override
 	public String getNom() {
 		return this.nom == null ? "" : this.nom;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.exo.entite.IPersonne#setNom(java.lang.String)
+	 */
+	@Override
 	public void setNom(String unNom) {
 		this.nom = unNom;
 	}
@@ -167,7 +223,11 @@ class Personne {
 		System.out.println(this.getNom() + " " + this.getPrenom() + " " + this.getAge());
 	}
 
-	public void inverser(Personne a) {
+	/* (non-Javadoc)
+	 * @see com.exo.entite.IPersonne#inverser(com.exo.entite.IPersonne)
+	 */
+	@Override
+	public void inverser(IPersonne a) {
 		a.setAge(105);
 
 	}

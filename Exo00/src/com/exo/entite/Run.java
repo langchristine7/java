@@ -49,8 +49,8 @@ public class Run {
 		//
 
 
-		Personne p1 = new Personne ("Dupont", "Albert", 25);
-		Personne p2 = new Personne("Dupont", "Albert", 25);
+		IPersonne p1 = new Personne ("Dupont", "Albert", 25);
+		IPersonne p2 = new Personne("Dupont", "Albert", 25);
 
 		if (p1==p2){
 			System.out.println("ok");
@@ -84,6 +84,9 @@ public class Run {
 		System.out.println(d1.hashCode());
 
 		Directeur d3 = new Directeur("Dupont", "Albert", 25);
+
+		IMonInterface im = new Personne();
+		im.calculerUnNombre(15);
 
 	}
 
