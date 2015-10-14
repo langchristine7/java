@@ -148,7 +148,7 @@ public class Client {
 		if (this.getComptes() != null) {
 			builder.append(", nbComptes=");
 			builder.append(this.getNbComptes());
-			builder.append(", getComptes()=");
+			builder.append("\n getComptes()=");
 			builder.append(Arrays.toString(this.getComptes()));
 		} else {
 			builder.append(", pas de comptes");
@@ -211,5 +211,17 @@ public class Client {
 			return super.hashCode();
 		}
 		return (this.getClass().getName() + "_" + this.getNo()).hashCode();
+	}
+
+	public void verserInteretsTsComptes () {
+		for (Compte compte : this.comptes) {
+			if (compte != null) {
+				if (compte instanceof CompteRemunere)
+				{
+					CompteRemunere c = (CompteRemunere) compte;
+					c.verserInterets();
+				}
+			}
+		}
 	}
 }

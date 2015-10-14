@@ -55,13 +55,16 @@ public class Run {
 		cr1.setSolde(150d);
 		cr1.setTaux(0.03);
 		System.out.println(" interets : " + cr1.calculerInterets());
-		cr1.verserInterets();
+		// cr1.verserInterets();
 		CompteASeuil cs1 = facCompte.creerCompteASeuil();
 		client1.ajouterCompte(cs1);
 		cs1.setSolde(20);
 		cs1.setSeuil(-10);
 		cs1.retirer(100);
 
+		client1.afficher();
+		client1.verserInteretsTsComptes();
+		System.out.println("apres interets");
 		client1.afficher();
 
 		CompteRemunere cr3 = facCompte.creerCompteRemunere();
