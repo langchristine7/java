@@ -88,6 +88,8 @@ public class Run {
 		IMonInterface im = new Personne();
 		im.calculerUnNombre(15);
 
+		IPersonne p3 = new Gens();
+
 	}
 
 }
