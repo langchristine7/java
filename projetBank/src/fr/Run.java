@@ -1,6 +1,8 @@
 package fr;
 import fr.banque.Client;
 import fr.banque.Compte;
+import fr.banque.CompteASeuil;
+import fr.banque.CompteRemunere;
 import fr.banque.FactoryCompte;
 
 public class Run {
@@ -33,7 +35,7 @@ public class Run {
 
 		client2.afficher();
 
-		// recherche du compte no 3
+		// recherche du compte no cptRecherche
 
 		int cptRecherche = 3;
 		Compte cpt3 = client2.getCompte(cptRecherche);
@@ -45,5 +47,30 @@ public class Run {
 		} else {
 			cpt3.afficher();
 		}
+
+		System.out.println("Nouveaux clients -----------------------------------");
+
+		CompteRemunere cr1 = facCompte.creerCompteRemunere();
+		client1.ajouterCompte(cr1);
+		cr1.setSolde(150d);
+		cr1.setTaux(0.03);
+		System.out.println(" interets : " + cr1.calculerInterets());
+		cr1.verserInterets();
+		CompteASeuil cs1 = facCompte.creerCompteASeuil();
+		client1.ajouterCompte(cs1);
+		cs1.setSolde(20);
+		cs1.setSeuil(-10);
+		cs1.retirer(100);
+
+		client1.afficher();
+
+		CompteRemunere cr3 = facCompte.creerCompteRemunere();
+		client2.ajouterCompte(cr3);
+		CompteASeuil cs3 = facCompte.creerCompteASeuil();
+		client2.ajouterCompte(cs3);
+
+		client2.afficher();
+
+
 	}
 }

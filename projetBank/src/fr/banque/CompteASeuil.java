@@ -1,7 +1,19 @@
-import fr.banque.Compte;
+package fr.banque;
 
 public class CompteASeuil extends Compte {
 	private double seuil;
+
+	public CompteASeuil() {
+		this(0.0);
+	}
+
+	/**
+	 * @param seuil
+	 */
+	public CompteASeuil(double seuil) {
+		super();
+		this.setSeuil(seuil);
+	}
 
 	/**
 	 * @return the seuil
@@ -18,13 +30,7 @@ public class CompteASeuil extends Compte {
 		this.seuil = seuil;
 	}
 
-	/**
-	 * @param seuil
-	 */
-	public CompteASeuil(double seuil) {
-		super();
-		this.setSeuil(seuil);
-	}
+
 
 	@Override
 	public String toString() {
@@ -43,7 +49,7 @@ public class CompteASeuil extends Compte {
 		double nouveauSolde = this.getSolde()-uneValeur ;
 		if (nouveauSolde < this.getSeuil()) {
 			System.out.print("Retrait non autorisé, le seuil est de : ");
-			System.out.print(this.getSeuil());
+			System.out.println(this.getSeuil());
 			return;
 		}
 		else {

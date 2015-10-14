@@ -6,12 +6,18 @@ public class Compte {
 	// private static int dernierNo = 0;
 
 	/**
+	 * Utiliser la methode FactoryCompte.creerCompte pour creer un compte
 	 * Creation compte par defaut solde = 0
 	 */
 	protected Compte() {
 		this(0);
 	}
 
+	/**
+	 * Utiliser la methode FactoryCompte.creerCompte pour creer un compte
+	 *
+	 * @param solde
+	 */
 	protected Compte(double solde) {
 		super();
 		this.solde = solde;
@@ -33,7 +39,7 @@ public class Compte {
 	 * @param solde
 	 *            the solde to set
 	 */
-	protected void setSolde(double solde) {
+	public void setSolde(double solde) {
 		this.solde = solde;
 	}
 

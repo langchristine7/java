@@ -23,13 +23,13 @@ public class CompteRemunere extends Compte
 		this.taux = taux;
 	}
 
-	public CompteRemunere() {
+	protected CompteRemunere() {
 	}
 
 	/**
 	 * @param taux
 	 */
-	public CompteRemunere(double taux) {
+	protected CompteRemunere(double taux) {
 		super();
 		this.taux = taux;
 	}
@@ -52,7 +52,7 @@ public class CompteRemunere extends Compte
 		return this.getTaux() * this.getSolde();
 	}
 
-	public void verserInterets(double uneValeur) {
+	public void verserInterets() {
 		this.ajouter(this.calculerInterets());
 	}
 

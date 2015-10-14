@@ -7,7 +7,7 @@ public class Client {
 	private String prenom;
 	private int age;
 	private int no;
-	Compte[] comptes;
+	protected Compte[] comptes;
 	private int nbComptes = 0;
 	public static final int MAX_COMPTES = 5;
 	private static int dernierNo = 0;
@@ -109,7 +109,7 @@ public class Client {
 	 * @param dernierNo
 	 *            the dernierNo to set
 	 */
-	private static void setDernierNo(int dernierNo) {
+	protected static void setDernierNo(int dernierNo) {
 		Client.dernierNo = dernierNo;
 	}
 
@@ -118,6 +118,13 @@ public class Client {
 	 */
 	public static int getMaxComptes() {
 		return Client.MAX_COMPTES;
+	}
+
+	/**
+	 * @return the nbComptes
+	 */
+	public int getNbComptes() {
+		return this.nbComptes;
 	}
 
 	/*
@@ -140,7 +147,7 @@ public class Client {
 
 		if (this.getComptes() != null) {
 			builder.append(", nbComptes=");
-			builder.append(this.getComptes().length);
+			builder.append(this.getNbComptes());
 			builder.append(", getComptes()=");
 			builder.append(Arrays.toString(this.getComptes()));
 		} else {
