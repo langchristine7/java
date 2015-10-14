@@ -8,11 +8,11 @@ public class Compte {
 	/**
 	 * Creation compte par defaut solde = 0
 	 */
-	Compte() {
+	protected Compte() {
 		this(0);
 	}
 
-	Compte(double solde) {
+	protected Compte(double solde) {
 		super();
 		this.solde = solde;
 		// this.no = ++Compte.dernierNo;
