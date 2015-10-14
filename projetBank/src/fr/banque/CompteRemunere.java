@@ -1,6 +1,6 @@
 package fr.banque;
 
-public class CompteRemunere extends Compte
+public class CompteRemunere extends Compte implements ICompteRemunere
 
 {
 	/*
@@ -8,17 +8,18 @@ public class CompteRemunere extends Compte
 	 */
 	private double taux;
 
-	/**
-	 * @return the taux
+	/* (non-Javadoc)
+	 * @see fr.banque.ICompteRemunere#getTaux()
 	 */
+	@Override
 	public double getTaux() {
 		return this.taux;
 	}
 
-	/**
-	 * @param taux
-	 *            the taux to set
+	/* (non-Javadoc)
+	 * @see fr.banque.ICompteRemunere#setTaux(double)
 	 */
+	@Override
 	public void setTaux(double taux) {
 		this.taux = taux;
 	}
@@ -48,10 +49,18 @@ public class CompteRemunere extends Compte
 	/*
 	 * Calcule les interets en fonction du taux et du Solde
 	 */
+	/* (non-Javadoc)
+	 * @see fr.banque.ICompteRemunere#calculerInterets()
+	 */
+	@Override
 	public double calculerInterets() {
 		return this.getTaux() * this.getSolde();
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.banque.ICompteRemunere#verserInterets()
+	 */
+	@Override
 	public void verserInterets() {
 		this.ajouter(this.calculerInterets());
 	}

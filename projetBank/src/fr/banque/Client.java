@@ -165,7 +165,7 @@ public class Client {
 
 	public void ajouterCompte(Compte compte) {
 		if (compte == null) {
-			System.err.println("ajouterCompte : compte est null");
+			System.out.println("ERREUR : ajouterCompte : compte est null");
 			return;
 		}
 		if (this.nbComptes == Client.MAX_COMPTES) {
@@ -216,9 +216,9 @@ public class Client {
 	public void verserInteretsTsComptes () {
 		for (Compte compte : this.comptes) {
 			if (compte != null) {
-				if (compte instanceof CompteRemunere)
+				if (compte instanceof ICompteRemunere)
 				{
-					CompteRemunere c = (CompteRemunere) compte;
+					ICompteRemunere c = (ICompteRemunere) compte;
 					c.verserInterets();
 				}
 			}

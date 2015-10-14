@@ -2,6 +2,7 @@ package fr;
 import fr.banque.Client;
 import fr.banque.Compte;
 import fr.banque.CompteASeuil;
+import fr.banque.CompteASeuilRemunere;
 import fr.banque.CompteRemunere;
 import fr.banque.FactoryCompte;
 
@@ -74,6 +75,16 @@ public class Run {
 
 		client2.afficher();
 
+		System.out.println("CompteASeuilRemunere ---------------------------------------");
+		CompteASeuilRemunere csr1 = facCompte.creerCompteASeuilRemunere();
+		client1.ajouterCompte(csr1);
+		csr1.setTaux(0.02);
+		csr1.setSeuil(-20);
+		csr1.setSolde(50);
+		csr1.retirer(100);
 
+		client1.verserInteretsTsComptes();
+
+		client1.afficher();
 	}
 }

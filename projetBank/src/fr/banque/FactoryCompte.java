@@ -46,5 +46,10 @@ public final class FactoryCompte {
 		return unCompte;
 	}
 
+	public CompteASeuilRemunere creerCompteASeuilRemunere() {
+		CompteASeuilRemunere unCompte = new CompteASeuilRemunere();
+		unCompte.setNo(this.creerNumero());
+		return unCompte;
+	}
 }
 

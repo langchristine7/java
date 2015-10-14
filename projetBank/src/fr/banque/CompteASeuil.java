@@ -1,6 +1,6 @@
 package fr.banque;
 
-public class CompteASeuil extends Compte {
+public class CompteASeuil extends Compte implements ICompteASeuil {
 	private double seuil;
 
 	public CompteASeuil() {
@@ -15,17 +15,18 @@ public class CompteASeuil extends Compte {
 		this.setSeuil(seuil);
 	}
 
-	/**
-	 * @return the seuil
+	/* (non-Javadoc)
+	 * @see fr.banque.ICompteASeuil#getSeuil()
 	 */
+	@Override
 	public double getSeuil() {
 		return this.seuil;
 	}
 
-	/**
-	 * @param seuil
-	 *            the seuil to set
+	/* (non-Javadoc)
+	 * @see fr.banque.ICompteASeuil#setSeuil(double)
 	 */
+	@Override
 	public void setSeuil(double seuil) {
 		this.seuil = seuil;
 	}
@@ -42,6 +43,10 @@ public class CompteASeuil extends Compte {
 		builder.append("]");
 		return builder.toString();
 	}
+
+	/* (non-Javadoc)
+	 * @see fr.banque.ICompteASeuil#retirer(double)
+	 */
 
 	@Override
 	public void retirer (double uneValeur)
