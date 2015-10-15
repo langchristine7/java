@@ -24,7 +24,7 @@ public class Run {
 		try {
 			c1.retirer(50);
 		} catch (BanqueException e) {
-			System.out.println("ERREUR: Impossible de retirer de l'argent : " + e.getMessage());
+			e.printStackTrace();
 		}
 		c1.afficher();
 
@@ -37,7 +37,7 @@ public class Run {
 		try {
 			client2.ajouterCompte(c1);
 		} catch (BanqueException e) {
-			System.out.println("ERREUR : Impossible d'ajouter le compte : " + e.getMessage());
+			e.printStackTrace();
 		}
 
 		client2.afficher();
@@ -46,7 +46,7 @@ public class Run {
 		try {
 			client2.ajouterCompte(c2);
 		} catch (BanqueException e) {
-			System.out.println("ERREUR : Impossible d'ajouter le compte : " + e.getMessage());
+			e.printStackTrace();
 		}
 		c2.afficher();
 
@@ -71,7 +71,7 @@ public class Run {
 		try {
 			client1.ajouterCompte(cr1);
 		} catch (BanqueException e) {
-			System.out.println("ERREUR : Impossible d'ajouter le compte : " + e.getMessage());
+			e.printStackTrace();
 		}
 		cr1.setSolde(150d);
 		cr1.setTaux(0.03);
@@ -81,7 +81,7 @@ public class Run {
 		try {
 			client1.ajouterCompte(cs1);
 		} catch (BanqueException e) {
-			System.out.println("ERREUR : Impossible d'ajouter le compte : " + e.getMessage());
+			e.printStackTrace();
 		}
 
 		cs1.setSolde(20);
@@ -89,7 +89,7 @@ public class Run {
 		try {
 			cs1.retirer(100);
 		} catch (BanqueException e) {
-			System.out.println("ERREUR: Impossible de retirer de l'argent : " + e.getMessage());
+			e.printStackTrace();
 		}
 
 		client1.afficher();
@@ -103,7 +103,7 @@ public class Run {
 			client2.ajouterCompte(cr3);
 			client2.ajouterCompte(cs3);
 		} catch (BanqueException e) {
-			System.out.println("ERREUR : Impossible d'ajouter le compte : " + e.getMessage());
+			e.printStackTrace();
 		}
 
 		client2.afficher();
@@ -114,7 +114,7 @@ public class Run {
 			client1.ajouterCompte(csr1);
 		} catch (BanqueException e)
 		{
-			System.out.println("ERREUR : Impossible d'ajouter le compte : " + e.getMessage());
+			e.printStackTrace();
 		}
 		csr1.setTaux(0.02);
 		csr1.setSeuil(-20);
@@ -122,7 +122,7 @@ public class Run {
 		try {
 			csr1.retirer(100);
 		} catch (BanqueException e) {
-			System.out.println("ERREUR: Impossible de retirer de l'argent : " + e.getMessage());
+			e.printStackTrace();
 		}
 		client1.verserInteretsTsComptes();
 
@@ -134,7 +134,10 @@ public class Run {
 			try {
 				clientTropComptes.ajouterCompte(cptTmp);
 			} catch (BanqueException e) {
-				System.out.println("ERREUR : impossible d'ajouter encore un compte : " + e.getMessage());
+				System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+				System.out.println("ERREUR : Impossible d'ajouter le compte : ");
+				System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+				e.printStackTrace();
 			}
 		}
 	}
