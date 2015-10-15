@@ -13,6 +13,6 @@ public interface ICompteASeuil {
 	 */
 	void setSeuil(double seuil);
 
-	void retirer(double uneValeur);
+	void retirer(double uneValeur) throws BanqueException;
 
 }

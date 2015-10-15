@@ -1,4 +1,6 @@
 package fr;
+
+import fr.banque.BanqueException;
 import fr.banque.Client;
 import fr.banque.Compte;
 import fr.banque.CompteASeuil;
@@ -19,7 +21,11 @@ public class Run {
 		c1.ajouter(200);
 		c1.afficher();
 
-		c1.retirer(50);
+		try {
+			c1.retirer(50);
+		} catch (BanqueException e) {
+			System.out.println("ERREUR: Impossible de retirer de l'argent : " + e.getMessage());
+		}
 		c1.afficher();
 
 		Client client1 = new Client();
@@ -61,7 +67,11 @@ public class Run {
 		client1.ajouterCompte(cs1);
 		cs1.setSolde(20);
 		cs1.setSeuil(-10);
-		cs1.retirer(100);
+		try {
+			cs1.retirer(100);
+		} catch (BanqueException e) {
+			System.out.println("ERREUR: Impossible de retirer de l'argent : " + e.getMessage());
+		}
 
 		client1.afficher();
 		client1.verserInteretsTsComptes();
@@ -81,8 +91,11 @@ public class Run {
 		csr1.setTaux(0.02);
 		csr1.setSeuil(-20);
 		csr1.setSolde(50);
-		csr1.retirer(100);
-
+		try {
+			csr1.retirer(100);
+		} catch (BanqueException e) {
+			System.out.println("ERREUR: Impossible de retirer de l'argent : " + e.getMessage());
+		}
 		client1.verserInteretsTsComptes();
 
 		client1.afficher();

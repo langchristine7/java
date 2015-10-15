@@ -49,13 +49,11 @@ public class CompteASeuil extends Compte implements ICompteASeuil {
 	 */
 
 	@Override
-	public void retirer (double uneValeur)
+	public void retirer(double uneValeur) throws BanqueException
 	{
 		double nouveauSolde = this.getSolde()-uneValeur ;
 		if (nouveauSolde < this.getSeuil()) {
-			System.out.print("Retrait non autorisé, le seuil est de : ");
-			System.out.println(this.getSeuil());
-			return;
+			throw new BanqueException("Retrait non autorisé, le seuil est de : " + this.getSeuil());
 		}
 		else {
 			this.setSolde(nouveauSolde);

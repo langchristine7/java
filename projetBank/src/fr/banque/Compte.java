@@ -75,7 +75,7 @@ public class Compte {
 		this.setSolde(this.getSolde() + montant);
 	}
 
-	public void retirer(double montant) {
+	public void retirer(double montant) throws BanqueException {
 		this.setSolde(this.getSolde() - montant);
 	}
 
