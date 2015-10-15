@@ -22,12 +22,12 @@ interface IPersonne {
 	 * @param age
 	 *            the age to set
 	 */
-	void setAge(int age);
+	void setAge(int age) throws MonException;
 
 	String getNom();
 
 	void setNom(String unNom);
 
-	void inverser(IPersonne a);
+	void inverser(IPersonne a) throws MonException;
 
 }

@@ -21,7 +21,11 @@ public class CompteRemunere extends Compte implements ICompteRemunere
 	 */
 	@Override
 	public void setTaux(double taux) {
-		this.taux = taux;
+		if ((taux < 0) || (taux > 1)) {
+			System.out.println("Le taux doit être compris entre 0 et 1");
+		} else {
+			this.taux = taux;
+		}
 	}
 
 	protected CompteRemunere() {

@@ -34,13 +34,18 @@ class Personne implements IMonInterface, Cloneable, Serializable, Comparable<Per
 		Personne.compteur++;
 		this.setNom(nom);
 		this.setPrenom(prenom);
-		this.setAge(age);
+		try {
+			this.setAge(age);
+		} catch (MonException e) {
+			System.out.println("L'age ne peut etre negatif");
+			this.age = age;
+		}
 	}
 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
@@ -51,7 +56,7 @@ class Personne implements IMonInterface, Cloneable, Serializable, Comparable<Per
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.exo.entite.IMonInterface#faireQQChose()
 	 */
 	@Override
@@ -62,7 +67,7 @@ class Personne implements IMonInterface, Cloneable, Serializable, Comparable<Per
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.exo.entite.IMonInterface#calculerUnNombre(int)
 	 */
 	@Override
@@ -73,7 +78,7 @@ class Personne implements IMonInterface, Cloneable, Serializable, Comparable<Per
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
@@ -199,8 +204,12 @@ class Personne implements IMonInterface, Cloneable, Serializable, Comparable<Per
 	 * @see com.exo.entite.IPersonne#setAge(int)
 	 */
 	@Override
-	public void setAge(int age) {
-		this.age = age;
+	public void setAge(int age) throws MonException {
+		if (age >= 0) {
+			this.age = age;
+		}
+
+		throw new MonException("L'age doit etre strictement positif");
 	}
 
 	/* (non-Javadoc)
@@ -227,7 +236,7 @@ class Personne implements IMonInterface, Cloneable, Serializable, Comparable<Per
 	 * @see com.exo.entite.IPersonne#inverser(com.exo.entite.IPersonne)
 	 */
 	@Override
-	public void inverser(IPersonne a) {
+	public void inverser(IPersonne a) throws MonException {
 		a.setAge(105);
 
 	}

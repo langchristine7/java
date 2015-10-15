@@ -63,7 +63,21 @@ public class Run {
 		Directeur d1 = new Directeur();
 		d1.setNom("Dupont");
 		d1.setPrenom("Albert");
-		d1.setAge(25);
+		try {
+			System.out.println("-- A --");
+
+			d1.setAge(25);
+			System.out.println("-- B --"); // va dans le catch si l'exception
+			// est levee
+		} catch (MonException e) {
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
+			System.out.println(e.getMessage());
+		} finally
+ {
+			System.out.println("on passe ici dans tous les cas");
+			System.out.println("pour fermer des flux et fichiers");
+		}
 
 		System.out.println(d1.equals(p1));
 		System.out.println(p1.equals(d1));

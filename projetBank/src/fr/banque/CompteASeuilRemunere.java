@@ -22,8 +22,11 @@ public class CompteASeuilRemunere extends CompteASeuil implements ICompteRemuner
 
 	@Override
 	public void setTaux(double taux) {
-		// TODO Auto-generated method stub
-		this.taux = taux;
+		if ((taux < 0) || (taux > 1)) {
+			System.out.println("Le taux doit être compris entre 0 et 1");
+		} else {
+			this.taux = taux;
+		}
 	}
 
 	/*
