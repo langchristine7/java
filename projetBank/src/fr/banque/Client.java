@@ -163,14 +163,12 @@ public class Client {
 		System.out.println(this.toString());
 	}
 
-	public void ajouterCompte(Compte compte) {
+	public void ajouterCompte(Compte compte) throws BanqueException {
 		if (compte == null) {
-			System.out.println("ERREUR : ajouterCompte : compte est null");
-			return;
+			throw new BanqueException("ajouterCompte : compte est null");
 		}
 		if (this.nbComptes == Client.MAX_COMPTES) {
-			System.out.println("Le nombre de comptes maximum est atteint : " + Client.MAX_COMPTES);
-			return;
+			throw new BanqueException("Le nombre de comptes maximum est atteint : " + Client.MAX_COMPTES);
 		}
 		if (this.comptes == null) {
 			this.comptes = new Compte[Client.MAX_COMPTES];

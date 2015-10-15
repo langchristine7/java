@@ -33,11 +33,21 @@ public class Run {
 
 		Client client2 = new Client("Durand", "Albert", 25);
 		client2.afficher();
-		client2.ajouterCompte(c1);
-		client2.afficher();
 
+		try {
+			client2.ajouterCompte(c1);
+		} catch (BanqueException e) {
+			System.out.println("ERREUR : Impossible d'ajouter le compte : " + e.getMessage());
+		}
+
+		client2.afficher();
 		c2.ajouter(250);
-		client2.ajouterCompte(c2);
+
+		try {
+			client2.ajouterCompte(c2);
+		} catch (BanqueException e) {
+			System.out.println("ERREUR : Impossible d'ajouter le compte : " + e.getMessage());
+		}
 		c2.afficher();
 
 		client2.afficher();
@@ -58,13 +68,22 @@ public class Run {
 		System.out.println("Nouveaux clients -----------------------------------");
 
 		CompteRemunere cr1 = facCompte.creerCompteRemunere();
-		client1.ajouterCompte(cr1);
+		try {
+			client1.ajouterCompte(cr1);
+		} catch (BanqueException e) {
+			System.out.println("ERREUR : Impossible d'ajouter le compte : " + e.getMessage());
+		}
 		cr1.setSolde(150d);
 		cr1.setTaux(0.03);
 		System.out.println(" interets : " + cr1.calculerInterets());
 		// cr1.verserInterets();
 		CompteASeuil cs1 = facCompte.creerCompteASeuil();
-		client1.ajouterCompte(cs1);
+		try {
+			client1.ajouterCompte(cs1);
+		} catch (BanqueException e) {
+			System.out.println("ERREUR : Impossible d'ajouter le compte : " + e.getMessage());
+		}
+
 		cs1.setSolde(20);
 		cs1.setSeuil(-10);
 		try {
@@ -79,15 +98,24 @@ public class Run {
 		client1.afficher();
 
 		CompteRemunere cr3 = facCompte.creerCompteRemunere();
-		client2.ajouterCompte(cr3);
 		CompteASeuil cs3 = facCompte.creerCompteASeuil();
-		client2.ajouterCompte(cs3);
+		try {
+			client2.ajouterCompte(cr3);
+			client2.ajouterCompte(cs3);
+		} catch (BanqueException e) {
+			System.out.println("ERREUR : Impossible d'ajouter le compte : " + e.getMessage());
+		}
 
 		client2.afficher();
 
 		System.out.println("CompteASeuilRemunere ---------------------------------------");
 		CompteASeuilRemunere csr1 = facCompte.creerCompteASeuilRemunere();
-		client1.ajouterCompte(csr1);
+		try {
+			client1.ajouterCompte(csr1);
+		} catch (BanqueException e)
+		{
+			System.out.println("ERREUR : Impossible d'ajouter le compte : " + e.getMessage());
+		}
 		csr1.setTaux(0.02);
 		csr1.setSeuil(-20);
 		csr1.setSolde(50);
@@ -99,5 +127,16 @@ public class Run {
 		client1.verserInteretsTsComptes();
 
 		client1.afficher();
+
+		Client clientTropComptes = new Client("trop", "de comptes", 10);
+		for (int i = 0; i < 10; i++) {
+			Compte cptTmp = facCompte.creerCompte();
+			try {
+				clientTropComptes.ajouterCompte(cptTmp);
+			} catch (BanqueException e) {
+				System.out.println("ERREUR : impossible d'ajouter encore un compte : " + e.getMessage());
+			}
+		}
 	}
+
 }
