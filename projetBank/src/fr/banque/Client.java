@@ -1,14 +1,15 @@
 package fr.banque;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Map;
 
 public class Client {
 	private String nom;
 	private String prenom;
 	private int age;
 	private int no;
-	protected List<Compte> comptes;
+	protected Map<Integer, Compte> comptes;
 	private int nbComptes = 0;
 	public static final int MAX_COMPTES = 5;
 	private static int dernierNo = 0;
@@ -22,7 +23,7 @@ public class Client {
 		this.prenom = prenom;
 		this.age = age;
 		this.setNo(++Client.dernierNo);
-		this.comptes = new ArrayList<Compte>();
+		this.comptes = new Hashtable<Integer, Compte>();
 	}
 
 	/**
@@ -88,24 +89,32 @@ public class Client {
 	/**
 	 * @return the comptes
 	 */
+
 	public Compte[] getComptes() {
-		if (this.comptes == null) {
+		if ((this.comptes == null) || (this.comptes.size() == 0)) {
 			return null;
 		}
+
 		Compte[] tab = new Compte[this.comptes.size()];
-		return this.comptes.toArray(tab);
+		return this.comptes.values().toArray(tab);
 	}
 
 	/**
 	 * @param comptes
 	 *            the comptes to set
 	 */
-	public void setComptes(Compte[] comptes) {
-		List<Compte> listeComptes = new ArrayList<>();
-		for (Compte c : comptes) {
-			listeComptes.add(c);
+	public void setComptes(Compte[] desComptes) {
+		if (desComptes == null) {
+			System.out.println("param desComptes of setComptes is null");
+			return;
 		}
-		this.comptes = listeComptes;
+		if (this.comptes == null) {
+			this.comptes = new Hashtable<Integer, Compte>() ;
+		}
+
+		for (Compte c : desComptes) {
+			this.comptes.put(new Integer(c.getNo()), c);
+		}
 	}
 
 	/**
@@ -200,9 +209,9 @@ public class Client {
 		builder.append(", getNo()=");
 		builder.append(this.getNo());
 		builder.append(", ");
-		if (this.getComptes() != null) {
-			builder.append("getComptes()=");
-			builder.append(this.getComptes());
+		if (this.comptes != null) {
+			builder.append("comptes=");
+			builder.append(this.comptes);
 			builder.append(", ");
 		}
 		builder.append("getNbComptes()=");
@@ -212,6 +221,7 @@ public class Client {
 		builder.append("]");
 		return builder.toString();
 	}
+
 
 	public void ajouterCompte(Compte compte) throws BanqueException {
 		if (compte == null) {
@@ -223,11 +233,47 @@ public class Client {
 		// " + Client.MAX_COMPTES);
 		// }
 		if (this.comptes == null) {
-			this.comptes = new ArrayList<Compte>();
+			this.comptes = new Hashtable<Integer, Compte>();
 		}
-		this.comptes.add(compte);
+		this.comptes.put(compte.getNo(), compte);
 		this.nbComptes++;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see java.lang.Object#toString()
+	 */
+	// @Override
+	// public String toString() {
+	// StringBuilder builder = new StringBuilder();
+	// builder.append("Client [");
+	// if (this.comptes != null) {
+	// builder.append("comptes=");
+	// builder.append(this.comptes);
+	// builder.append(", ");
+	// }
+	// if (this.getNom() != null) {
+	// builder.append("getNom()=");
+	// builder.append(this.getNom());
+	// builder.append(", ");
+	// }
+	// if (this.getPrenom() != null) {
+	// builder.append("getPrenom()=");
+	// builder.append(this.getPrenom());
+	// builder.append(", ");
+	// }
+	// builder.append("getAge()=");
+	// builder.append(this.getAge());
+	// builder.append(", getNo()=");
+	// builder.append(this.getNo());
+	// builder.append(", getNbComptes()=");
+	// builder.append(this.getNbComptes());
+	// builder.append(", hashCode()=");
+	// builder.append(this.hashCode());
+	// builder.append("]");
+	// return builder.toString();
+	// }
 
 	public Compte getCompte(int no) {
 		if (this.comptes == null) {
@@ -238,13 +284,7 @@ public class Client {
 		// return this.comptes[i];
 		// }
 		// }
-		for (Compte compte : this.comptes) {
-			if (compte.getNo() == no)
-			{
-				return compte;
-			}
-		}
-		return null;
+		return (this.comptes.get(new Integer(no)));
 	}
 
 	@Override
@@ -271,13 +311,11 @@ public class Client {
 	}
 
 	public void verserInteretsTsComptes () {
-		for (Compte compte : this.comptes) {
-			if (compte != null) {
-				if (compte instanceof ICompteRemunere)
-				{
-					ICompteRemunere c = (ICompteRemunere) compte;
-					c.verserInterets();
-				}
+		Iterator<Compte> iterValue = this.comptes.values().iterator();
+		while (iterValue.hasNext()) {
+			Compte cpt = iterValue.next();
+			if (cpt instanceof ICompteRemunere) {
+				((ICompteRemunere) cpt).verserInterets();
 			}
 		}
 	}
