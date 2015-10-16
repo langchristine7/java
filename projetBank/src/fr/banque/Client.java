@@ -222,7 +222,6 @@ public class Client {
 		return builder.toString();
 	}
 
-
 	public void ajouterCompte(Compte compte) throws BanqueException {
 		if (compte == null) {
 			throw new BanqueException("ajouterCompte : compte est null");
