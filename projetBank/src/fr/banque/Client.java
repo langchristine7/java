@@ -22,6 +22,7 @@ public class Client {
 		this.prenom = prenom;
 		this.age = age;
 		this.setNo(++Client.dernierNo);
+		this.comptes = new ArrayList<Compte>();
 	}
 
 	/**
@@ -87,16 +88,24 @@ public class Client {
 	/**
 	 * @return the comptes
 	 */
-	public List<Compte> getComptes() {
-		return this.comptes;
+	public Compte[] getComptes() {
+		if (this.comptes == null) {
+			return null;
+		}
+		Compte[] tab = new Compte[this.comptes.size()];
+		return this.comptes.toArray(tab);
 	}
 
 	/**
 	 * @param comptes
 	 *            the comptes to set
 	 */
-	public void setComptes(List<Compte> comptes) {
-		this.comptes = comptes;
+	public void setComptes(Compte[] comptes) {
+		List<Compte> listeComptes = new ArrayList<>();
+		for (Compte c : comptes) {
+			listeComptes.add(c);
+		}
+		this.comptes = listeComptes;
 	}
 
 	/**
@@ -125,7 +134,7 @@ public class Client {
 	 * @return the nbComptes
 	 */
 	public int getNbComptes() {
-		return this.nbComptes;
+		return this.comptes.size();
 	}
 
 	/*
@@ -208,9 +217,11 @@ public class Client {
 		if (compte == null) {
 			throw new BanqueException("ajouterCompte : compte est null");
 		}
-		if (this.nbComptes == Client.MAX_COMPTES) {
-			throw new BanqueException("Le nombre de comptes maximum est atteint : " + Client.MAX_COMPTES);
-		}
+		//
+		// if (this.nbComptes == Client.MAX_COMPTES) {
+		// throw new BanqueException("Le nombre de comptes maximum est atteint :
+		// " + Client.MAX_COMPTES);
+		// }
 		if (this.comptes == null) {
 			this.comptes = new ArrayList<Compte>();
 		}
