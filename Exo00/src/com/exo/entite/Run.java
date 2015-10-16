@@ -1,5 +1,14 @@
 package com.exo.entite;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public class Run {
 
 	public static void main(String[] args) {
@@ -74,7 +83,7 @@ public class Run {
 			// e.printStackTrace();
 			System.out.println(e.getMessage());
 		} finally
- {
+		{
 			System.out.println("on passe ici dans tous les cas");
 			System.out.println("pour fermer des flux et fichiers");
 		}
@@ -104,6 +113,48 @@ public class Run {
 
 		IPersonne p3 = new Gens();
 
+		List<String> maListe = new ArrayList<String>();
+		maListe.add("ZZZ");
+		maListe.add("10Toto4");
+		maListe.add("1Toto");
+		maListe.add("Toto2");
+
+		System.out.println(maListe);
+		Collections.sort(maListe, new MonComparator());
+		System.out.println(maListe);
+
+		Set<String> monSet = new HashSet<String>();
+		monSet.add("Toto");
+		monSet.add("Toto"); // n'insert pas 2 fois le meme element
+		monSet.add("Titi");
+		monSet.add("Tata");
+		System.out.println(monSet);
+
+		Map<Integer, String> maMap = new Hashtable<Integer, String>();
+		Map<Integer, List<String>> maMap2 = new Hashtable<Integer, List<String>>();
+		maMap.put(4, "toto");
+		maMap.put(1, "Titi");
+		maMap.put(10, "tata");
+		maMap.put(1, "tutu");
+		System.out.println(maMap);
+
+		Iterator<Integer> iterClef = maMap.keySet().iterator();
+		while (iterClef.hasNext()) {
+			Integer uneClef = iterClef.next();
+			System.out.println(uneClef + "=" + maMap.get(uneClef));
+		}
+		// sur les valeurs
+		Iterator<String> iterValeur = maMap.values().iterator();
+		while (iterValeur.hasNext()) {
+			String uneValeur = iterValeur.next();
+			System.out.println(uneValeur);
+		}
+		Iterator<Map.Entry<Integer, String>> iterClefValeur = maMap.entrySet().iterator();
+		while (iterClefValeur.hasNext()) {
+			Map.Entry<Integer, String> uneClefValeur = iterClefValeur.next();
+
+			System.out.println(uneClefValeur.getKey() + "=" + uneClefValeur.getValue());
+		}
 	}
 
 }
