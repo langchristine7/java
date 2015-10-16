@@ -1,6 +1,6 @@
 package fr.banque;
 
-public class CompteASeuilRemunere extends CompteASeuil implements ICompteRemunere {
+public class CompteASeuilRemunere extends CompteASeuil implements ICompteASeuilRemunere {
 
 	private double taux;
 
@@ -11,12 +11,10 @@ public class CompteASeuilRemunere extends CompteASeuil implements ICompteRemuner
 	CompteASeuilRemunere(double seuil, double taux) {
 		super(seuil);
 		this.setTaux(taux);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public double getTaux() {
-		// TODO Auto-generated method stub
 		return this.taux;
 	}
 

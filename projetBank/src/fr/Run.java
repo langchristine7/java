@@ -1,5 +1,7 @@
 package fr;
 
+import java.util.Date;
+
 import fr.banque.BanqueException;
 import fr.banque.Client;
 import fr.banque.Compte;
@@ -13,6 +15,7 @@ public class Run {
 
 		FactoryCompte facCompte = FactoryCompte.getInstance();
 
+		Date getTime = new Date();
 		Compte c1 = facCompte.creerCompte();
 		c1.afficher();
 		Compte c2 = facCompte.creerCompte();
