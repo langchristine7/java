@@ -1,6 +1,6 @@
 package fr.banque;
 
-public class Compte {
+public class Compte implements Comparable<Compte> {
 	private int no;
 	private double solde;
 	// private static int dernierNo = 0;
@@ -100,6 +100,17 @@ public class Compte {
 			return super.hashCode();
 		}
 		return (this.getClass().getName() + "_" + this.getNo()).hashCode();
+	}
+
+	@Override
+	public int compareTo(Compte o) {
+		if (this.getNo() == o.getNo()) {
+			return 0;
+		} else if (this.getNo() < o.getNo()) {
+			return -1;
+		} else {
+			return 1;
+		}
 	}
 
 }
