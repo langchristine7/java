@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import fr.banque.Client;
+
 public class Db {
 
 	private String nomDuDriver = "com.mysql.jdbc.Driver";
@@ -19,30 +21,36 @@ public class Db {
 		Class.forName(this.nomDuDriver); // on charge le driver
 	}
 
-	public void seConnecter(String unLogin, String unPassword, String unUrl) {
+	public void seConnecter(String unLogin, String unPassword, String unUrl) throws SQLException {
 		this.login = unLogin;
 		this.password = unPassword;
 		this.url = unUrl;
 		this.seConnecter();
 	}
 
-	public boolean seConnecter() {
+	public void seConnecter() throws SQLException {
 		if (this.laConnexion != null) {
-			return true;
-		}
-		try {
 			this.laConnexion = DriverManager.getConnection(this.url, this.login, this.password);
-			return true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
 		}
 	}
 
-	public void recupererClient(int id) {
+	public void seDeconnecter() {
+		if (this.laConnexion == null) {
+			return;
+		}
+		try {
+			this.laConnexion.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public Client recupererClient(int id) {
 
 		PreparedStatement ste = null;
 		ResultSet resultat = null;
+		Client client = null;
 
 		if (this.laConnexion == null) {
 			throw new RuntimeException("Connect to db before");
@@ -59,13 +67,12 @@ public class Db {
 
 				String libelle = resultat.getString("libelle");
 
-				System.out.println("Id compte de l'utilisateur " + id + " : " + idCompte + " Libelle : " + libelle);
+				// System.out.println("Id compte de l'utilisateur " + id + " : "
+				// + idCompte + " Libelle : " + libelle);
 
 			}
 
-		} catch (SQLException e)
-
-		{
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			// fermer les elements dans l'ordre inverse on les a ouverts
@@ -87,6 +94,7 @@ public class Db {
 			}
 
 		}
+		return client;
 	}
 
 
