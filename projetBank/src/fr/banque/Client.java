@@ -82,7 +82,7 @@ public class Client {
 	 * @param no
 	 *            the no to set
 	 */
-	private void setNo(int no) {
+	public void setNo(int no) {
 		this.no = no;
 	}
 
