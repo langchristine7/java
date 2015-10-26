@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 import fr.banque.Client;
 
@@ -50,7 +51,7 @@ public class Db {
 
 		PreparedStatement ste = null;
 		ResultSet resultat = null;
-		Client client = null;
+		Client client = new Client();
 
 		if (this.laConnexion == null) {
 			throw new RuntimeException("Connect to db before");
@@ -58,14 +59,15 @@ public class Db {
 
 		String requete;
 		try {
-			requete = "select * from compte where utilisateurId = ?";
+			requete = "select * from client where id = ?";
 			ste = this.laConnexion.prepareStatement(requete);
 			ste.setInt(1, id);
 			resultat = ste.executeQuery();
 			while (resultat.next()) {
-				int idCompte = resultat.getInt("id");
-
-				String libelle = resultat.getString("libelle");
+				client.setNo(resultat.getInt("id"));
+				client.setNom(resultat.getString("nom"));
+				client.setPrenom(resultat.getString("prenom"));
+				Date dateNaiss = new Date(resultat.getDate("dateDeNaissance"));
 
 				// System.out.println("Id compte de l'utilisateur " + id + " : "
 				// + idCompte + " Libelle : " + libelle);
