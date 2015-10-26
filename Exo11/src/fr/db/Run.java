@@ -1,4 +1,4 @@
-package ProjetDB;
+package fr.db;
 
 public class Run {
 
@@ -8,12 +8,20 @@ public class Run {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Db connexion = new Db();
-		connexion.seConnecter();
-		connexion.execute(null);
+		Db db = null;
+		try {
+			db = new Db();
+		} catch (ClassNotFoundException e) {
+
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		db.seConnecter();
+
 		// recherche du client id = 1
 		System.out.println("\nrecupererClient --- Recherche du client no 1");
-		connexion.recupererClient(1);
+
+		db.recupererClient(1);
 	}
 
 }
