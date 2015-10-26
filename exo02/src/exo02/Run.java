@@ -1,5 +1,8 @@
 package exo02;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 public class Run {
 
 	/**
@@ -68,8 +71,13 @@ public class Run {
 		tab[3] = new Point3D();
 
 		Point3Dv2 p13 = new Point3Dv2();
-		System.out.println(p13.getXx());
+		System.out.println("p13.x = " + p13.getXx());
 
+		Calendar c1 = new GregorianCalendar();
+		System.out.println("Calendar.getTime() : " + c1.getTime());
+		c1.set(Calendar.DAY_OF_YEAR, c1.get(Calendar.DAY_OF_YEAR) + 3);
+		System.out.println(c1.getTime());
+		System.out.println(c1.get(Calendar.DAY_OF_WEEK));
 	}
 
 	static void print(String s) {
