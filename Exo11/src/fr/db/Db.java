@@ -13,6 +13,7 @@ import fr.banque.BanqueException;
 import fr.banque.Client;
 import fr.banque.Compte;
 import fr.banque.FactoryCompte;
+import fr.banque.Operation;
 
 public class Db {
 
@@ -212,9 +213,147 @@ public class Db {
 		return client;
 	}
 
-	// public List<Operation> rechercher(int cpId, Date debut, Date fin, Boolean
-	// creditDebit) {
-	//
-	// }
+	public List<Operation> rechercherOperation(int cptId, Date debut, Date fin, Boolean creditDebit) {
+		PreparedStatement ste = null;
+		ResultSet resultat = null;
+		List<Operation> listeOper = new ArrayList<Operation>();
 
+		if (this.laConnexion == null) {
+			throw new RuntimeException("Executer seConnecter() avant");
+		}
+
+		String requete = null;
+		try {
+			requete = "select * from operation where compteId = ? ";
+			ste = this.laConnexion.prepareStatement(requete);
+			ste.setInt(1, cptId);
+			if ((debut != null) || (fin != null)) {
+				requete += " and date > ? and date < ? ";
+
+				if (debut == null) {
+					debut = new Date();
+				}
+				ste.setDate(2, new java.sql.Date(debut.getTime()));
+
+				if (fin == null) {
+					fin = new Date();
+				}
+				ste.setDate(3, new java.sql.Date(fin.getTime()));
+			}
+			if (creditDebit != null) {
+				if (creditDebit.booleanValue()) {
+					requete += " and montant > 0";
+				} else if (!creditDebit.booleanValue()) {
+					requete += " and montant < 0";
+				}
+			}
+
+			resultat = ste.executeQuery();
+			while (resultat.next()) {
+				int id = resultat.getInt("id");
+				String libelle = resultat.getString("libelle");
+				Double montant = resultat.getDouble("montant");
+				Date dateOpe = new Date (resultat.getDate("date").getTime());
+				int compteId = resultat.getInt("compteId");
+				Operation ope = new Operation(id, libelle, montant, dateOpe, compteId);
+				listeOper.add(ope);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			// fermer les elements dans l'ordre inverse on les a ouverts
+			try {
+				if (resultat != null) {
+					resultat.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if (ste != null) {
+					ste.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return listeOper;
+	}
+
+	public Compte rechercherCompte(int idCpte) {
+		PreparedStatement ste = null;
+		ResultSet resultat = null;
+		Compte cpte = null;
+
+		if (this.laConnexion == null) {
+			throw new RuntimeException("Executer seConnecter() avant");
+		}
+
+		String requete = null;
+		try {
+			requete = "select * from compte where id = ? ";
+			ste = this.laConnexion.prepareStatement(requete);
+			ste.setInt(1, idCpte);
+
+			resultat = ste.executeQuery();
+			while (resultat.next()) {
+				cpte = FactoryCompte.getInstance().creerCompte();
+				cpte.setNo(resultat.getInt("id"));
+				cpte.setLibelle(resultat.getString("libelle"));
+				cpte.setSolde(resultat.getDouble("solde"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			// fermer les elements dans l'ordre inverse on les a ouverts
+			try {
+				if (resultat != null) {
+					resultat.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if (ste != null) {
+					ste.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return cpte;
+	}
+	/*
+	 * TODO public List<Operation> faireVirement(int cpSrcId, int cpDestId,
+	 * double som) { PreparedStatement ste = null; ResultSet resultat = null;
+	 * List<Operation> listeCpt = new ArrayList<Operation>();
+	 * 
+	 * if (this.laConnexion == null) { throw new RuntimeException(
+	 * "Connect to db before"); } // TODO continuer
+	 * this.laConnexion.setAutoCommit(false); // TODO faire le commit qqpart
+	 * 
+	 * 
+	 * Compte cpteSrc = this.rechercherCompte(cpSrcId); Compte cpteDest =
+	 * this.rechercherCompte(cpDestId);
+	 * 
+	 * if ((cpteSrc == null) || (cpteDest == null)) { throw RuntimeException(
+	 * "Compte " + cpSrcId + "n'existe pas"); }
+	 * 
+	 * String requete = null; try { requete =
+	 * "select * from compte where utilisateurId = ?"; ste =
+	 * this.laConnexion.prepareStatement(requete); ste.setInt(1, userId);
+	 * resultat = ste.executeQuery(); while (resultat.next()) { Compte cpte =
+	 * FactoryCompte.getInstance().creerCompte();
+	 * cpte.setNo(resultat.getInt("id"));
+	 * cpte.setLibelle(resultat.getString("libelle"));
+	 * cpte.setSolde(resultat.getDouble("solde")); listeCpt.add(cpte); }
+	 * 
+	 * } catch (SQLException e) { e.printStackTrace(); } finally { // fermer les
+	 * elements dans l'ordre inverse on les a ouverts try { if (resultat !=
+	 * null) { resultat.close(); } } catch (SQLException e) { // TODO
+	 * Auto-generated catch block e.printStackTrace(); } try { if (ste != null)
+	 * { ste.close(); } } catch (SQLException e) { // TODO Auto-generated catch
+	 * block e.printStackTrace(); } } return listeCpt; }
+	 */
 }

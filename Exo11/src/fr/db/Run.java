@@ -5,6 +5,7 @@ import java.util.List;
 
 import fr.banque.Client;
 import fr.banque.Compte;
+import fr.banque.Operation;
 
 public class Run {
 
@@ -45,6 +46,14 @@ public class Run {
 
 			List<Compte> listCpt = db.listerComptes(2);
 			System.out.println(listCpt);
+
+			List<Operation> listeOpe = db.rechercherOperation(12, null, null, null);
+			System.out.println("Liste des operations");
+			System.out.println(listeOpe);
+
+			Compte cpteRech = db.rechercherCompte(15);
+			System.out.println("compte no 15 : ");
+			System.out.println(cpteRech);
 
 
 		} catch (SQLException e) {

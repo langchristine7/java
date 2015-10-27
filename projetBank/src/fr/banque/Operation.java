@@ -70,4 +70,31 @@ public class Operation {
 		this.compteId = compteId;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Operation [getId()=");
+		builder.append(this.getId());
+		builder.append(", ");
+		if (this.getLibelle() != null) {
+			builder.append("getLibelle()=");
+			builder.append(this.getLibelle());
+			builder.append(", ");
+		}
+		if (this.getMontant() != null) {
+			builder.append("getMontant()=");
+			builder.append(this.getMontant());
+			builder.append(", ");
+		}
+		if (this.getDate() != null) {
+			builder.append("getDate()=");
+			builder.append(this.getDate());
+			builder.append(", ");
+		}
+		builder.append("getCompteId()=");
+		builder.append(this.getCompteId());
+		builder.append("]");
+		return builder.toString();
+	}
+
 }
