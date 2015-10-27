@@ -2,6 +2,7 @@ package fr.banque;
 
 public class Compte implements Comparable<Compte> {
 	private int no;
+	private String libelle;
 	private double solde;
 	// private static int dernierNo = 0;
 
@@ -24,30 +25,32 @@ public class Compte implements Comparable<Compte> {
 		// this.no = ++Compte.dernierNo;
 	}
 
-	void setNo(int no) {
+	public void setNo(int no) {
 		this.no = no;
 	}
 
-	/**
-	 * @return the solde
-	 */
+
 	public double getSolde() {
 		return this.solde;
 	}
 
-	/**
-	 * @param solde
-	 *            the solde to set
-	 */
+
 	public void setSolde(double solde) {
 		this.solde = solde;
 	}
 
-	/**
-	 * @return the no
-	 */
+
 	public int getNo() {
 		return this.no;
+	}
+
+
+	public String getLibelle() {
+		return this.libelle;
+	}
+
+	public void setLibelle(String libelle) {
+		this.libelle = libelle;
 	}
 
 	/*
