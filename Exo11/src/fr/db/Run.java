@@ -25,6 +25,18 @@ public class Run {
 		try {
 			db.seConnecter();
 
+			String login = "dj";
+			String pwd = "dj";
+
+			System.out.println("test authentification ");
+			Client clt1 = db.authentifier(login, pwd);
+			if (clt1 == null) {
+				System.out.println("User non authentifie");
+			} else {
+				System.out.println("nom user : " + clt1.getNom());
+				System.out.println("age user : " + clt1.getAge());
+			}
+
 			// recherche du client id = 1
 			System.out.println("\nrecupererClient --- Recherche du client no 1");
 
@@ -33,6 +45,7 @@ public class Run {
 
 			List<Compte> listCpt = db.listerComptes(2);
 			System.out.println(listCpt);
+
 
 		} catch (SQLException e) {
 			System.out.println("Probleme de connexion : ");

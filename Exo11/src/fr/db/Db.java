@@ -73,10 +73,12 @@ public class Db {
 				client.setNom(resultat.getString("nom"));
 				client.setPrenom(resultat.getString("prenom"));
 				Date today = new Date();
-				Date birthday = new Date(resultat.getDate("dateDeNaissance").getTime());
-				int age = today.getYear() - birthday.getYear();
-				client.setAge(age);
-
+				java.sql.Date ddn = resultat.getDate("dateDeNaissance");
+				if (ddn != null) {
+					Date birthday = new Date(ddn.getTime());
+					int age = today.getYear() - birthday.getYear();
+					client.setAge(age);
+				}
 				List<Compte> listCpte = new ArrayList<Compte>();
 				listCpte = this.listerComptes(id);
 
@@ -161,5 +163,58 @@ public class Db {
 		}
 		return listeCpt;
 	}
+
+	public Client authentifier(String login, String pwd) {
+
+		if ((login == null) || (pwd == null)) {
+			return null;
+		}
+
+		PreparedStatement ste = null;
+		ResultSet resultat = null;
+		Client client = null;
+
+		if (this.laConnexion == null) {
+			throw new RuntimeException("Connect to db before");
+		}
+
+		String requete = null;
+		try {
+			requete = "select id from utilisateur where login = ? and password = ?";
+			ste = this.laConnexion.prepareStatement(requete);
+			ste.setString(1, login);
+			ste.setString(2, pwd);
+			resultat = ste.executeQuery();
+			if (resultat.next()) {
+				client = this.recupererClient(resultat.getInt("id"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			// fermer les elements dans l'ordre inverse on les a ouverts
+			try {
+				if (resultat != null) {
+					resultat.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				if (ste != null) {
+					ste.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return client;
+	}
+
+	// public List<Operation> rechercher(int cpId, Date debut, Date fin, Boolean
+	// creditDebit) {
+	//
+	// }
 
 }
