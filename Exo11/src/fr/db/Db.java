@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,6 +27,10 @@ public class Db {
 	public Db() throws ClassNotFoundException {
 		System.out.println("creation classe connexion ");
 		Class.forName(this.nomDuDriver); // on charge le driver
+	}
+
+	public Connection getCxn() {
+		return this.laConnexion;
 	}
 
 	public void seConnecter(String unLogin, String unPassword, String unUrl) throws SQLException {
@@ -57,7 +62,7 @@ public class Db {
 
 		PreparedStatement ste = null;
 		ResultSet resultat = null;
-		Client client = new Client();
+		Client client = null;
 
 		if (this.laConnexion == null) {
 			throw new RuntimeException("Connect to db before");
@@ -70,6 +75,7 @@ public class Db {
 			ste.setInt(1, id);
 			resultat = ste.executeQuery();
 			while (resultat.next()) {
+				client = new Client();
 				client.setNo(resultat.getInt("id"));
 				client.setNom(resultat.getString("nom"));
 				client.setPrenom(resultat.getString("prenom"));
@@ -324,36 +330,46 @@ public class Db {
 		}
 		return cpte;
 	}
-	/*
-	 * TODO public List<Operation> faireVirement(int cpSrcId, int cpDestId,
-	 * double som) { PreparedStatement ste = null; ResultSet resultat = null;
-	 * List<Operation> listeCpt = new ArrayList<Operation>();
-	 * 
-	 * if (this.laConnexion == null) { throw new RuntimeException(
-	 * "Connect to db before"); } // TODO continuer
-	 * this.laConnexion.setAutoCommit(false); // TODO faire le commit qqpart
-	 * 
-	 * 
-	 * Compte cpteSrc = this.rechercherCompte(cpSrcId); Compte cpteDest =
-	 * this.rechercherCompte(cpDestId);
-	 * 
-	 * if ((cpteSrc == null) || (cpteDest == null)) { throw RuntimeException(
-	 * "Compte " + cpSrcId + "n'existe pas"); }
-	 * 
-	 * String requete = null; try { requete =
-	 * "select * from compte where utilisateurId = ?"; ste =
-	 * this.laConnexion.prepareStatement(requete); ste.setInt(1, userId);
-	 * resultat = ste.executeQuery(); while (resultat.next()) { Compte cpte =
-	 * FactoryCompte.getInstance().creerCompte();
-	 * cpte.setNo(resultat.getInt("id"));
-	 * cpte.setLibelle(resultat.getString("libelle"));
-	 * cpte.setSolde(resultat.getDouble("solde")); listeCpt.add(cpte); }
-	 * 
-	 * } catch (SQLException e) { e.printStackTrace(); } finally { // fermer les
-	 * elements dans l'ordre inverse on les a ouverts try { if (resultat !=
-	 * null) { resultat.close(); } } catch (SQLException e) { // TODO
-	 * Auto-generated catch block e.printStackTrace(); } try { if (ste != null)
-	 * { ste.close(); } } catch (SQLException e) { // TODO Auto-generated catch
-	 * block e.printStackTrace(); } } return listeCpt; }
-	 */
+
+	// TODO
+
+	public void faireVirement(Integer cptSrc, Integer cptDest, Double unMontant) throws SQLException {
+
+		if (this.laConnexion == null) {
+			throw new SQLException("Connect to db before");
+		}
+		this.laConnexion.setAutoCommit(false);
+
+		Statement request = null;
+		try {
+			// Recuperation de tous les clients
+			request = this.laConnexion.createStatement();
+			request.executeUpdate("update compte set solde=(solde-" + unMontant + ") where id=" + cptSrc);
+			request.close();
+			request = this.laConnexion.createStatement();
+			request.executeUpdate("update compte set solde=(solde+" + unMontant + ") where id=" + cptDest);
+			request.close();
+			request = this.laConnexion.createStatement();
+			request.executeUpdate("insert into operation (libelle, montant, date, compteId) values ('Virement',"
+					+ (-unMontant) + ",NOW()," + cptSrc + ")");
+			request.close();
+			request = this.laConnexion.createStatement();
+			request.executeUpdate("insert into operation (libelle, montant, date, compteId) values ('Virement',"
+					+ unMontant + ",NOW()," + cptDest + ")");
+			this.laConnexion.commit();
+		} catch (SQLException sql) {
+			this.laConnexion.rollback();
+			throw sql;
+		} finally {
+			if (request != null) {
+				try {
+					request.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		this.laConnexion.setAutoCommit(true);
+	}
+
 }
