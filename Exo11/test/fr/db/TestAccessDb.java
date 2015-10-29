@@ -168,8 +168,8 @@ public class TestAccessDb {
 		int cptSrc = 13;
 		int cptDest = 12;
 		double montant = 100d;
-		Compte compteSrc = this.db.rechercherCompte(cptSrc);
-		double sldSrc = compteSrc.getSolde();
+		// Compte compteSrc = this.db.rechercherCompte(cptSrc);
+		double sldSrc = this.db.rechercherCompte(cptSrc).getSolde();
 		double sldDest = this.db.rechercherCompte(cptDest).getSolde();
 		try {
 			this.db.faireVirement(cptSrc, cptDest, montant);
@@ -180,7 +180,11 @@ public class TestAccessDb {
 		List<Operation> lstOpe = this.db.rechercherOperation(cptSrc, null, null, false);
 
 		// resultat
-		Assert.assertTrue("Les Montants doivent etre ok ", compteSrc.getSolde() == (sldSrc - montant));
+		Assert.assertTrue("Les Montants doivent etre ok ",
+				this.db.rechercherCompte(cptSrc).getSolde() == (sldSrc - montant));
+		Assert.assertTrue("Les Montants doivent etre ok ",
+				this.db.rechercherCompte(cptDest).getSolde() == (sldDest + montant));
+
 		Assert.assertTrue("les operations doit etre enregistrees", lstOpe.size() > 0);
 		try {
 			this.db.faireVirement(cptDest, cptSrc, montant);

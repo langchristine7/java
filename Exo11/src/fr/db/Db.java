@@ -374,6 +374,7 @@ public class Db {
 			request.executeUpdate("insert into operation (libelle, montant, date, compteId) values ('Virement',"
 					+ unMontant + ",NOW()," + cptDest + ")");
 			this.laConnexion.commit();
+
 		} catch (SQLException sql) {
 			this.laConnexion.rollback();
 			throw sql;
