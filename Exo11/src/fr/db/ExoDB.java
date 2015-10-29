@@ -1,15 +1,64 @@
 package fr.db;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Properties;
 
 public class ExoDB {
 
 
 	public static void main(String[] args) {
+		Properties mesProperties = new Properties();
+
+		try (InputStream is = ClassLoader.getSystemResourceAsStream("mesPreferences.properties")) {
+			mesProperties.load(is);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		//		File file = new File("C:/Users/chris/git/java/Exo11/src/mesPreferences.properties");
+		//		if (file.exists() && file.canRead()) {
+		//
+		//			try (FileReader fr = new FileReader(file)) { // a partir de java 7,
+		//				// traite le finally
+		//				// tout seul
+		//				mesProperties.load(fr);
+		//			} catch (IOException e) {
+		//				e.printStackTrace();
+		//			}
+		//		}
+		// else {
+		// System.err.println("Fichier '" + file + "' pas trouve");
+		// }
+
+		// Nom du driver pour acceder a la base de donnees
+		// lire la doc associee a sa base de donnees pour le connaitre
+		final String dbDriver = mesProperties.getProperty("db.driver");
+		final String dbUrl = mesProperties.getProperty("db.url");
+		final String dbLogin = mesProperties.getProperty("db.login");
+		final String dbPwd = mesProperties.getProperty("db.password");
+
+		System.out.println("dbDriver : " + dbDriver);
+
+		// on peut faire
+		mesProperties.setProperty("une.nouvelle.cle", "bonjour");
+		// on peut le sauvegarder
+		// mesProperties.store()
+
+		// on peut recuperer les properties du systeme
+		Properties ps = System.getProperties();
+		Iterator<Map.Entry<Object, Object>> iter = ps.entrySet().iterator();
+		while (iter.hasNext()) {
+			Map.Entry<Object, Object> entry = iter.next();
+			System.out.println(entry.getKey() + "=" + entry.getValue());
+		}
 
 		String nomDuDriver = "com.mysql.jdbc.Driver";
 		try {

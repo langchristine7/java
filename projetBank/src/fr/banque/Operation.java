@@ -1,11 +1,13 @@
 package fr.banque;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Operation {
+public class Operation implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private int id;
-	private String libelle;
+	private transient String libelle;
 	private Double montant;
 	private Date date;
 	private int compteId;

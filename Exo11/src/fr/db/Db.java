@@ -29,6 +29,23 @@ public class Db {
 		Class.forName(this.nomDuDriver); // on charge le driver
 	}
 
+	/**
+	 *
+	 * @param nomDuDriver
+	 * @param url
+	 * @param login
+	 * @param password
+	 * @throws ClassNotFoundException
+	 */
+	public Db(String nomDuDriver, String url, String login, String password) throws ClassNotFoundException {
+		System.out.println("creation classe connexion ");
+		Class.forName(nomDuDriver); // on charge le driver
+		this.nomDuDriver = nomDuDriver;
+		this.url = url;
+		this.login = login;
+		this.password = password;
+	}
+
 	public Connection getCxn() {
 		return this.laConnexion;
 	}

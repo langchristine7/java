@@ -1,7 +1,11 @@
 package fr.db;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
 import fr.banque.Client;
 import fr.banque.Compte;
@@ -14,10 +18,33 @@ public class Run {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+
+		Properties mesProperties = new Properties();
+		File file = new File("C:/Users/chris/git/java/Exo11/src/mesPreferences.properties");
+		if (file.exists() && file.canRead()) {
+
+			try (FileReader fr = new FileReader(file)) { // a partir de java 7,
+				// traite le finally
+				// tout seul
+				mesProperties.load(fr);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.err.println("Fichier '" + file + "' pas trouve");
+		}
+
+		// Nom du driver pour acceder a la base de donnees
+		// lire la doc associee a sa base de donnees pour le connaitre
+		final String dbDriver = mesProperties.getProperty("db.driver");
+		final String dbUrl = mesProperties.getProperty("db.url");
+		final String dbLogin = mesProperties.getProperty("db.login");
+		final String dbPwd = mesProperties.getProperty("db.password");
+
 		Db db = null;
 		try {
-			db = new Db();
+			// db = new Db();
+			db = new Db(dbDriver, dbUrl, dbLogin, dbPwd);
 		} catch (ClassNotFoundException e) {
 
 			e.printStackTrace();
