@@ -2,11 +2,14 @@
  * Copyright : Ferret Renaud 2002 <br/>
  *
  * @version 1.0<br/>
+ *
+ * exo 2
  */
+
 package fr.banque;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import fr.banque.entity.Client;
 import fr.banque.entity.Compte;
@@ -21,7 +24,7 @@ import fr.banque.exception.BanqueException;
  */
 public class Run {
 
-	private final static Log LOG = LogFactory.getLog(Run.class);
+	private final static Logger LOG = LogManager.getLogger(Run.class);
 
 	/**
 	 * Lancement des tests. <br>
@@ -48,10 +51,7 @@ public class Run {
 		client.ajouterCompte(c2);
 		client.ajouterCompte(c3);
 		client.ajouterCompte(c4);
-		if (Run.LOG.isDebugEnabled()) {
-			Run.LOG.debug("Voici mon client " + client);
-
-		}
+		Run.LOG.debug("Voici mon client {}", client);
 		// System.out.println(client);
 		try {
 			// Doit partir en exception
@@ -61,19 +61,14 @@ public class Run {
 			// System.out.println("On ne verra jamais ce texte, car on part dans
 			// le catch a la ligne du dessus");
 		} catch (BanqueException e) {
-			Run.LOG.error("Erreur lors deu retier de 500", e);
+			Run.LOG.error("Erreur lors deu retier de 500 : {}", e.getMessage());
 			// e.printStackTrace();
 		}
-		if (Run.LOG.isDebugEnabled()) {
-			Run.LOG.debug("Le compte c2 = " + c2);
-
-		}
+		Run.LOG.debug("Le compte c2 = {}", c2);
 		// System.out.println(c2);
 		c3.verserInterets();
-		if (Run.LOG.isDebugEnabled()) {
-			Run.LOG.debug("Le compte c3 = " + c3);
+		Run.LOG.debug("Le compte c3 = {}", c3);
 
-		}
 		// System.out.println(c3);
 
 		// Polymorphisme
