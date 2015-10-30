@@ -7,6 +7,9 @@ package fr.banque.entity;
 
 import java.io.Serializable;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import fr.banque.exception.BanqueException;
 
 /**
@@ -14,6 +17,7 @@ import fr.banque.exception.BanqueException;
  */
 public class Compte implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private final static Log LOG = LogFactory.getLog(Compte.class);
 
 	private double solde;
 	private int numero;
@@ -59,6 +63,9 @@ public class Compte implements Serializable {
 	 */
 	public void setSolde(double unSolde) {
 		this.solde = unSolde;
+		if (Compte.LOG.isDebugEnabled()) {
+			Compte.LOG.debug("Le solde est negatif " + this.solde);
+		}
 	}
 
 	/**

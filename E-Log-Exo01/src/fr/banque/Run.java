@@ -5,6 +5,9 @@
  */
 package fr.banque;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import fr.banque.entity.Client;
 import fr.banque.entity.Compte;
 import fr.banque.entity.CompteASeuil;
@@ -18,6 +21,9 @@ import fr.banque.exception.BanqueException;
  */
 public class Run {
 
+	private final static Log LOG = LogFactory.getLog(Run.class);
+
+
 	/**
 	 * Lancement des tests. <br>
 	 *
@@ -25,9 +31,14 @@ public class Run {
 	 *            les arguments de lancement
 	 */
 	public static void main(String[] args) {
+
+		Run.LOG.debug("-- Start--");
+
+		Run.LOG.info("creation du client principale Mr Dupont ");
 		// creation du client principale Mr Dupont
 		Client client = new Client(1, "Dupont", "Henry", 28);
 		// Creation des comptes
+		Run.LOG.info("Creation des comptes");
 		Compte c0 = new Compte(0, 200);
 		Compte c1 = new Compte(1, 1000);
 		CompteASeuil c2 = new CompteASeuil(2, 400, 100);
@@ -38,17 +49,33 @@ public class Run {
 		client.ajouterCompte(c2);
 		client.ajouterCompte(c3);
 		client.ajouterCompte(c4);
-		System.out.println(client);
+		if (Run.LOG.isDebugEnabled()) {
+			Run.LOG.debug("Voici mon client " + client);
+
+		}
+		// System.out.println(client);
 		try {
 			// Doit partir en exception
+			Run.LOG.debug("Avant retirer de 500");
 			client.getCompte(2).retirer(500);
-			System.out.println("On ne verra jamais ce texte, car on part dans le catch a la ligne du dessus");
+
+			// System.out.println("On ne verra jamais ce texte, car on part dans
+			// le catch a la ligne du dessus");
 		} catch (BanqueException e) {
-			e.printStackTrace();
+			Run.LOG.error("Erreur lors deu retier de 500", e);
+			// e.printStackTrace();
 		}
-		System.out.println(c2);
+		if (Run.LOG.isDebugEnabled()) {
+			Run.LOG.debug("Le compte c2 = " + c2);
+
+		}
+		// System.out.println(c2);
 		c3.verserInterets();
-		System.out.println(c3);
+		if (Run.LOG.isDebugEnabled()) {
+			Run.LOG.debug("Le compte c3 = " + c3);
+
+		}
+		// System.out.println(c3);
 
 		// Polymorphisme
 		ICompteASeuil c = new CompteASeuil(50, 200, 50);

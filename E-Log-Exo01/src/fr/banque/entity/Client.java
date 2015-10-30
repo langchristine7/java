@@ -9,6 +9,9 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Ceci est la classe Client. <br/>
  *
@@ -17,6 +20,7 @@ import java.util.Map;
  */
 public class Client implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private final static Log LOG = LogFactory.getLog(Client.class);
 
 	private String nom;
 	private String prenom;
@@ -150,6 +154,9 @@ public class Client implements Serializable {
 	 * @return le compte vise ou null si il n'existe pas
 	 */
 	public Compte getCompte(int unNumero) {
+		if (unNumero < 0) {
+			Client.LOG.error("getCompte(no) : no est negatif " + unNumero);
+		}
 		return this.tabComptes.get(unNumero);
 		// Ou, si on ne veut pas de boxing
 		// return this.tabComptes.get(Integer.valueOf(unNumero));
@@ -167,6 +174,9 @@ public class Client implements Serializable {
 			// Ou, si on ne veut pas de boxing
 			// this.tabComptes.put(Integer.valueOf(unCompte.getNumero()),
 			// unCompte);
+		}
+		else {
+			Client.LOG.error("ajouterCompte : le compte est null");
 		}
 	}
 

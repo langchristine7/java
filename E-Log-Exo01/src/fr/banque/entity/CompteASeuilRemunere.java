@@ -5,6 +5,9 @@
  */
 package fr.banque.entity;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import fr.banque.exception.BanqueException;
 
 /**
@@ -15,6 +18,7 @@ import fr.banque.exception.BanqueException;
  */
 public class CompteASeuilRemunere extends CompteRemunere implements ICompteASeuil {
 	private static final long serialVersionUID = 1L;
+	private final static Log LOG = LogFactory.getLog(CompteASeuilRemunere.class);
 
 	private double seuil;
 
@@ -62,6 +66,10 @@ public class CompteASeuilRemunere extends CompteRemunere implements ICompteASeui
 	public void retirer(double unMontant) throws BanqueException {
 		double simu = this.getSolde() - unMontant;
 		if (simu <= this.getSeuil()) {
+			if (CompteASeuilRemunere.LOG.isDebugEnabled()) {
+				CompteASeuilRemunere.LOG.debug("Votre seuil de " + this.getSeuil() + " ne vous permet pas de retirer "
+						+ unMontant + " de votre compte " + this.getNumero());
+			}
 			throw new BanqueException("Votre seuil de " + this.getSeuil() + " ne vous permet pas de retirer "
 					+ unMontant + " de votre compte " + this.getNumero());
 		} else {
