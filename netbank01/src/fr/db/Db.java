@@ -13,6 +13,9 @@ import java.util.List;
 import fr.banque.BanqueException;
 import fr.banque.Client;
 import fr.banque.Compte;
+import fr.banque.CompteASeuil;
+import fr.banque.CompteASeuilRemunere;
+import fr.banque.CompteRemunere;
 import fr.banque.FactoryCompte;
 import fr.banque.Operation;
 
@@ -140,6 +143,72 @@ public class Db {
 		return client;
 	}
 
+	public List<Client> listerClients() {
+
+		PreparedStatement ste = null;
+		ResultSet resultat = null;
+		List<Client> listClt = new ArrayList<Client>();
+
+		if (this.laConnexion == null) {
+			throw new RuntimeException("Connect to db before");
+		}
+
+		String requete = null;
+		try {
+			requete = "select * from utilisateur ";
+			ste = this.laConnexion.prepareStatement(requete);
+			resultat = ste.executeQuery();
+			while (resultat.next()) {
+				Client client = new Client();
+				int no = resultat.getInt("id");
+				client.setNo(no);
+				client.setNom(resultat.getString("nom"));
+				client.setPrenom(resultat.getString("prenom"));
+				Date today = new Date();
+				java.sql.Date ddn = resultat.getDate("dateDeNaissance");
+				if (ddn != null) {
+					Date birthday = new Date(ddn.getTime());
+					int age = today.getYear() - birthday.getYear();
+					client.setAge(age);
+				}
+				List<Compte> listCpte = new ArrayList<Compte>();
+				listCpte = this.listerComptes(no);
+
+				for (Compte cpt : listCpte) {
+					try {
+						client.ajouterCompte(cpt);
+					} catch (BanqueException e) {
+						e.printStackTrace();
+					}
+				}
+				listClt.add(client);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			// fermer les elements dans l'ordre inverse on les a ouverts
+			try {
+				if (resultat != null) {
+					resultat.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				if (ste != null) {
+					ste.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+		return listClt;
+	}
+
 	public List<Compte> listerComptes(int userId) {
 
 		PreparedStatement ste = null;
@@ -157,10 +226,7 @@ public class Db {
 			ste.setInt(1, userId);
 			resultat = ste.executeQuery();
 			while (resultat.next()) {
-				Compte cpte = FactoryCompte.getInstance().creerCompte();
-				cpte.setNo(resultat.getInt("id"));
-				cpte.setLibelle(resultat.getString("libelle"));
-				cpte.setSolde(resultat.getDouble("solde"));
+				Compte cpte = this.remplitCompte(resultat);
 				listeCpt.add(cpte);
 			}
 
@@ -186,6 +252,34 @@ public class Db {
 			}
 		}
 		return listeCpt;
+	}
+
+	private Compte remplitCompte(ResultSet resultat) throws SQLException {
+		Compte cpte = null;
+
+		double seuil = resultat.getDouble("seuil");
+		boolean seuilNull = resultat.wasNull();
+		double taux = resultat.getDouble("taux");
+		boolean tauxNull = resultat.wasNull();
+
+		if (seuilNull && tauxNull) {
+			cpte = FactoryCompte.getInstance().creerCompte();
+		} else if (seuilNull && !tauxNull) {
+			cpte = FactoryCompte.getInstance().creerCompteRemunere();
+			((CompteRemunere) cpte).setTaux(taux);
+		} else if (!seuilNull && tauxNull) {
+			cpte = FactoryCompte.getInstance().creerCompteASeuil();
+			((CompteASeuil) cpte).setSeuil(seuil);
+		} else {
+			cpte = FactoryCompte.getInstance().creerCompteASeuilRemunere();
+			((CompteASeuilRemunere) cpte).setSeuil(seuil);
+			((CompteASeuilRemunere) cpte).setTaux(taux);
+		}
+
+		cpte.setNo(resultat.getInt("id"));
+		cpte.setLibelle(resultat.getString("libelle"));
+		cpte.setSolde(resultat.getDouble("solde"));
+		return cpte;
 	}
 
 	public Client authentifier(String login, String pwd) {
