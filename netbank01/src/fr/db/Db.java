@@ -282,34 +282,6 @@ public class Db {
 		return cpte;
 	}
 
-	private Compte remplitCompte(ResultSet resultat) throws SQLException {
-		Compte cpte = null;
-
-		double seuil = resultat.getDouble("seuil");
-		boolean seuilNull = resultat.wasNull();
-		double taux = resultat.getDouble("taux");
-		boolean tauxNull = resultat.wasNull();
-
-		if (seuilNull && tauxNull) {
-			cpte = FactoryCompte.getInstance().creerCompte();
-		} else if (seuilNull && !tauxNull) {
-			cpte = FactoryCompte.getInstance().creerCompteRemunere();
-			((CompteRemunere) cpte).setTaux(taux);
-		} else if (!seuilNull && tauxNull) {
-			cpte = FactoryCompte.getInstance().creerCompteASeuil();
-			((CompteASeuil) cpte).setSeuil(seuil);
-		} else {
-			cpte = FactoryCompte.getInstance().creerCompteASeuilRemunere();
-			((CompteASeuilRemunere) cpte).setSeuil(seuil);
-			((CompteASeuilRemunere) cpte).setTaux(taux);
-		}
-
-		cpte.setNo(resultat.getInt("id"));
-		cpte.setLibelle(resultat.getString("libelle"));
-		cpte.setSolde(resultat.getDouble("solde"));
-		return cpte;
-	}
-
 	public Client authentifier(String login, String pwd) {
 
 		if ((login == null) || (pwd == null)) {
