@@ -257,7 +257,7 @@ public class Db {
 	private Compte remplitCompte(ResultSet resultat) throws SQLException {
 		Compte cpte = null;
 
-		double seuil = resultat.getDouble("seuil");
+		double seuil = resultat.getDouble("decouvert");
 		boolean seuilNull = resultat.wasNull();
 		double taux = resultat.getDouble("taux");
 		boolean tauxNull = resultat.wasNull();
@@ -415,10 +415,7 @@ public class Db {
 
 			resultat = ste.executeQuery();
 			while (resultat.next()) {
-				cpte = FactoryCompte.getInstance().creerCompte();
-				cpte.setNo(resultat.getInt("id"));
-				cpte.setLibelle(resultat.getString("libelle"));
-				cpte.setSolde(resultat.getDouble("solde"));
+				cpte = this.remplitCompte(resultat);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
