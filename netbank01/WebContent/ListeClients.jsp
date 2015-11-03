@@ -1,9 +1,4 @@
-<%@page import="java.io.IOException"%>
-<%@page import="java.sql.SQLException"%>
-<%@page import="java.io.FileReader"%>
-<%@page import="java.io.File"%>
-<%@page import="java.util.Properties"%>
-<%@page import="java.util.List,java.text.SimpleDateFormat,java.util.Date,fr.db.*,fr.banque.*"%>
+<%@page import="java.util.List,fr.banque.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -39,7 +34,8 @@
 				<td>  <%=  c.getPrenom() %>  </td>
 				<td>  <%=  c.getAge() %> </td>
 				<td>
-					<form method='post' action='Comptes.jsp?no=<%=c.getNo()%>'>
+					<form method='post' action="ServletListeComptes">
+					<input type="hidden" name="no" value="<%=c.getNo()%>">
 					<input type='submit' value='Comptes'/>
 					</form>
 				</td> 

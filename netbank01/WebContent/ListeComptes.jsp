@@ -1,9 +1,4 @@
-<%@page import="java.io.IOException"%>
-<%@page import="java.sql.SQLException"%>
-<%@page import="java.io.FileReader"%>
-<%@page import="java.io.File"%>
-<%@page import="java.util.Properties"%>
-<%@page import="java.util.List,java.text.SimpleDateFormat,java.util.Date,fr.db.*,fr.banque.*"%>
+<%@page import="java.util.List,fr.banque.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -15,79 +10,20 @@
 	<link rel="stylesheet" href="css/skeleton.css"/>
 
 </head>
-
-<%!
-	Db db = null;
-	Properties mesProperties = null;
+<body>
+<%
+	String erreur = (String) request.getAttribute("erreur");
+	if (erreur == null) {
 %>
-
-<%! public void jspInit() {
-	mesProperties = new Properties();
-	File file = new File("C:/Users/chris/git/java/Exo11/src/mesPreferences.properties");
-	if (file.exists() && file.canRead()) {
-		try (FileReader fr = new FileReader(file)) { // a partir de java 7,
-			// traite le finally
-			// tout seul
-			mesProperties.load(fr);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	} else {
-		System.err.println("Fichier '" + file + "' pas trouve");
-	}
-
-	// Nom du driver pour acceder a la base de donnees
-	// lire la doc associee a sa base de donnees pour le connaitre
-	final String dbDriver = mesProperties.getProperty("db.driver");
-	final String dbUrl = mesProperties.getProperty("db.url");
-	final String dbLogin = mesProperties.getProperty("db.login");
-	final String dbPwd = mesProperties.getProperty("db.password");
-
-	db = null;
-	try {
-		// db = new Db();
-		db = new Db(dbDriver, dbUrl, dbLogin, dbPwd);
-	} catch (ClassNotFoundException e) {
-
-		e.printStackTrace();
-		System.exit(-1);
-	}
-	try {
-		db.seConnecter();
-
-	
-	} catch (SQLException e) {
-		System.out.println("Probleme de connexion : ");
-		e.printStackTrace();
-	} catch (RuntimeException e) {
-		e.printStackTrace();
-
-	}
-}
-%>
-
-<%! 
-public void jspDestroy() {
-	if (db != null) {
-		db.seDeconnecter();
-	}
-}
-%>
+		Erreur : <%=erreur %>		
 
 <%
-try {
-	int noClient;
-	try {
-		noClient = Integer.parseInt(request.getParameter("no"));
-	} catch (RuntimeException e) {
-		out.print("Le client no " + request.getParameter("no") + " n'existe pas");
-		return;
-	}
-
-	List<Compte> listCpt = db.listerComptes(noClient);
+	} else
+	{
+	int noClient = (int) request.getAttribute("noClient");
+	List<Compte> listCpt = (List<Compte>) request.getAttribute("listeComptes");
+	
 %>
-
-	<body>
 		<h1>
 			Liste des comptes du client <%=noClient%>
 		</h1>
@@ -124,18 +60,6 @@ try {
 	<% } %>
 		</tbody> 
 		</table> 
-
-	</body>
-	</html>
-
-<%
-} catch (RuntimeException e) {
-	e.printStackTrace();
-
-} catch (Exception e) {
-	e.printStackTrace();
-}
-%>
-
+<% } %>
 </body>
 </html>

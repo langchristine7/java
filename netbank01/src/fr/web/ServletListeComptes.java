@@ -3,11 +3,11 @@ package fr.web;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -18,8 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.banque.Client;
 import fr.banque.Compte;
-import fr.banque.ICompteASeuil;
-import fr.banque.ICompteRemunere;
 import fr.banque.Operation;
 import fr.db.Db;
 
@@ -135,66 +133,21 @@ public class ServletListeComptes extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			PrintWriter out = response.getWriter();
 			int noClient;
 			try {
 				noClient = Integer.parseInt(request.getParameter("no"));
 			} catch (RuntimeException e) {
-				out.print("Le client no " + request.getParameter("no") + " n'existe pas");
-				return;
+				request.setAttribute("erreur", "Le numero de client n'est pas un entier ");
+				noClient = 0;
 			}
 
 			List<Compte> listCpt = this.db.listerComptes(noClient);
 
-			StringBuffer buff = new StringBuffer();
-			buff.append("<html>\n");
-			buff.append("<head>\n");
-			buff.append("<title>\n");
-			buff.append("   Banque Poec\n");
-			buff.append("</title>\n");
-			buff.append("</head>\n");
-			buff.append("<body>\n");
-			buff.append("	<h1>\n");
-			buff.append("		Liste des comptes du client " + noClient + "\n");
-			buff.append("	</h1>\n");
+			request.setAttribute("noClient", noClient);
+			request.setAttribute("listeComptes", listCpt);
 
-			buff.append("	<table> \n");
-			buff.append("	<thead> \n");
-			buff.append("	<tr> \n");
-			buff.append("	<td> No </td>\n");
-			buff.append("	<td> Libelle </td>\n");
-			buff.append("	<td> Solde </td>\n");
-			buff.append("	<td> Taux </td>\n");
-			buff.append("	<td> Seuil </td>\n");
-			buff.append("	</tr> \n");
-			buff.append("	</thead> \n");
-			buff.append("	<tbody> \n");
-			for (Compte c : listCpt) {
-
-				buff.append("	<tr> \n");
-				buff.append("	<td> " + c.getNo() + "</td>\n");
-				buff.append("	<td> " + c.getLibelle() + "</td>\n");
-				buff.append("	<td> " + c.getSolde() + " </td>\n");
-				buff.append("	<td> ");
-				if (c instanceof ICompteASeuil) {
-					buff.append(((ICompteASeuil) c).getSeuil());
-				}
-				buff.append("	</td>\n");
-				buff.append("	<td> ");
-				if (c instanceof ICompteRemunere) {
-					buff.append(((ICompteRemunere) c).getTaux());
-				}
-				buff.append("	</td>\n");
-
-				buff.append("	</tr> \n");
-			}
-			buff.append("	</tbody> \n");
-			buff.append("	</table> \n");
-
-			buff.append("</body>\n");
-			buff.append("</html>\n");
-
-			out.print(buff);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("ListeComptes.jsp");
+			dispatcher.forward(request, response);
 
 		} catch (RuntimeException e) {
 			e.printStackTrace();
