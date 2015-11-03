@@ -81,8 +81,8 @@ public void jspDestroy() {
 		<title>
 		   Banque Poec
 		</title>
-		<link rel=\"stylesheet\" href=\"css/normalize.css\"/>
-		<link rel=\"stylesheet\" href=\"css/skeleton.css\"/>
+		<link rel="stylesheet" href="css/normalize.css"/>
+		<link rel="stylesheet" href="css/skeleton.css"/>
 
 		</head>
 		<body>

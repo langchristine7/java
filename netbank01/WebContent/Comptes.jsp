@@ -10,9 +10,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Liste des Clients</title>
+	<title>Liste des Clients</title>
+	<link rel="stylesheet" href="css/normalize.css"/>
+	<link rel="stylesheet" href="css/skeleton.css"/>
+
 </head>
-<body>
 
 <%!
 	Db db = null;
@@ -85,12 +87,6 @@ try {
 	List<Compte> listCpt = db.listerComptes(noClient);
 %>
 
-	<html>
-	<head>
-	<title>
-	   Banque Poec
-	</title>
-	</head>
 	<body>
 		<h1>
 			Liste des comptes du client <%=noClient%>
