@@ -1,10 +1,11 @@
 package fr.banque;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 
-public class Client {
+public class Client implements Serializable {
 	private String nom;
 	private String prenom;
 	private int age;
