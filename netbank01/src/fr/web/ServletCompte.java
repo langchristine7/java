@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.banque.Client;
 import fr.banque.Compte;
+import fr.banque.ICompteASeuil;
+import fr.banque.ICompteRemunere;
 import fr.banque.Operation;
 import fr.db.Db;
 
@@ -173,9 +175,16 @@ public class ServletCompte extends HttpServlet {
 				buff.append("	<td> " + c.getNo() + "</td>\n");
 				buff.append("	<td> " + c.getLibelle() + "</td>\n");
 				buff.append("	<td> " + c.getSolde() + " </td>\n");
-				buff.append("	<td> " + "taux" + "</td>\n");
-				buff.append("	<td> " + "seuil" + "</td>\n");
-
+				buff.append("	<td> ");
+				if (c instanceof ICompteASeuil) {
+					buff.append(((ICompteASeuil) c).getSeuil());
+				}
+				buff.append("	</td>\n");
+				buff.append("	<td> ");
+				if (c instanceof ICompteRemunere) {
+					buff.append(((ICompteRemunere) c).getTaux());
+				}
+				buff.append("	</td>\n");
 
 				buff.append("	</tr> \n");
 			}

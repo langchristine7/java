@@ -145,6 +145,9 @@ public class ServletClient extends HttpServlet {
 			buff.append("<title>\n");
 			buff.append("   Banque Poec\n");
 			buff.append("</title>\n");
+			buff.append("<link rel=\"stylesheet\" href=\"css/normalize.css\"/>");
+			buff.append("<link rel=\"stylesheet\" href=\"css/skeleton.css\"/>");
+
 			buff.append("</head>\n");
 			buff.append("<body>\n");
 			buff.append("	<h1>\n");
@@ -178,7 +181,6 @@ public class ServletClient extends HttpServlet {
 			}
 			buff.append("	</tbody> \n");
 			buff.append("	</table> \n");
-
 
 			buff.append("</body>\n");
 			buff.append("</html>\n");
