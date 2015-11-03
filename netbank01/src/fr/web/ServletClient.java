@@ -44,11 +44,9 @@ public class ServletClient extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 
-
 		this.mesProperties = new Properties();
 		File file = new File("C:/Users/chris/git/java/Exo11/src/mesPreferences.properties");
 		if (file.exists() && file.canRead()) {
-
 			try (FileReader fr = new FileReader(file)) { // a partir de java 7,
 				// traite le finally
 				// tout seul
