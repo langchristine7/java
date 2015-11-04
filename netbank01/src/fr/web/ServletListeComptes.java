@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -16,9 +17,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fr.banque.Client;
 import fr.banque.Compte;
-import fr.banque.Operation;
+import fr.banque.ICompteASeuil;
+import fr.banque.ICompteRemunere;
 import fr.db.Db;
 
 /**
@@ -78,35 +79,6 @@ public class ServletListeComptes extends HttpServlet {
 		try {
 			this.db.seConnecter();
 
-			String login = "dj";
-			String pwd = "dj";
-
-			System.out.println("test authentification ");
-			Client clt1 = this.db.authentifier(login, pwd);
-			if (clt1 == null) {
-				System.out.println("User non authentifie");
-			} else {
-				System.out.println("nom user : " + clt1.getNom());
-				System.out.println("age user : " + clt1.getAge());
-			}
-
-			// recherche du client id = 1
-			System.out.println("\nrecupererClient --- Recherche du client no 1");
-
-			Client client = this.db.recupererClient(1);
-			System.out.println(client);
-
-			List<Compte> listCpt = this.db.listerComptes(2);
-			System.out.println(listCpt);
-
-			List<Operation> listeOpe = this.db.rechercherOperation(12, null, null, null);
-			System.out.println("Liste des operations");
-			System.out.println(listeOpe);
-
-			Compte cpteRech = this.db.rechercherCompte(15);
-			System.out.println("compte no 15 : ");
-			System.out.println(cpteRech);
-
 		} catch (SQLException e) {
 			System.out.println("Probleme de connexion : ");
 			e.printStackTrace();
@@ -143,8 +115,26 @@ public class ServletListeComptes extends HttpServlet {
 
 			List<Compte> listCpt = this.db.listerComptes(noClient);
 
+			List<BeanCompte> lstBeanCompte = new ArrayList<BeanCompte>();
+			for (Compte c : listCpt) {
+				BeanCompte beanC = new BeanCompte();
+				beanC.setNo(c.getNo());
+				beanC.setLibelle(c.getLibelle());
+				beanC.setSolde(c.getSolde());
+				if (c instanceof ICompteASeuil) {
+					beanC.setSeuil(((ICompteASeuil) c).getSeuil());
+					beanC.setHasSeuil(true);
+				}
+				if (c instanceof ICompteRemunere) {
+					beanC.setTaux(((ICompteRemunere) c).getTaux());
+					beanC.setHasTaux(true);
+				}
+				lstBeanCompte.add(beanC);
+			}
+
 			request.setAttribute("noClient", noClient);
-			request.setAttribute("listeComptes", listCpt);
+			request.setAttribute("lstBeanCompte", lstBeanCompte);
+			request.setAttribute("nomClient", this.db.recupererClient(noClient).getNom());
 
 			RequestDispatcher dispatcher = request.getRequestDispatcher("ListeComptes.jsp");
 			dispatcher.forward(request, response);
