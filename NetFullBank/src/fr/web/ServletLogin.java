@@ -23,7 +23,7 @@ import fr.db.Db;
 /**
  * Servlet implementation class ServletLogin
  */
-@WebServlet("/Login")
+@WebServlet("/login")
 public class ServletLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final static Logger LOG = LogManager.getLogger(ServletLogin.class);
@@ -36,7 +36,6 @@ public class ServletLogin extends HttpServlet {
 	 */
 	public ServletLogin() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -51,7 +50,12 @@ public class ServletLogin extends HttpServlet {
 	 */
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
+	}
+
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		this.retourneAuLogin(request, response);
 	}
 
 	/**
@@ -145,11 +149,16 @@ public class ServletLogin extends HttpServlet {
 			return;
 		}
 
+		db.seDeconnecter();
+
 		// connexion is ok
-		request.getSession(true).setAttribute("db", db);
+		// request.getSession(true).setAttribute("db", db);
 		request.getSession(true).setAttribute("client", clt);
+		request.setAttribute("password", null);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("menu.jsp");
 		dispatcher.forward(request, response);
+
+
 	}
 
 	private void retourneAuLogin(HttpServletRequest request, HttpServletResponse response)

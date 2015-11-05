@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Liste des Clients</title>
+	<title>Liste des Comptes</title>
 	<link rel="stylesheet" href="<c:url value="css/normalize.css"/>" />
 	<link rel="stylesheet" href="<c:url value="css/skeleton.css"/>" />
 
