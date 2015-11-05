@@ -84,7 +84,6 @@ public class ServletListeComptes extends HttpServlet {
 			e.printStackTrace();
 		} catch (RuntimeException e) {
 			e.printStackTrace();
-
 		}
 
 	}
@@ -100,10 +99,12 @@ public class ServletListeComptes extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	@Override
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
 			int noClient;
 			try {

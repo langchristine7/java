@@ -10,7 +10,7 @@
 </head>
 
 <body class="elBody" >
-  <form id="frmLogin" name="frmLogin" action="<c:url value="/ServletLogin"/>"  method="post">
+  <form id="frmLogin" name="frmLogin" action="<c:url value="/Login"/>"  method="post">
     <table width="100%">
       <tr>
         <td align="right" valign="top">
@@ -37,10 +37,10 @@
                   </tr>
                   <tr>
                   <td colspan=2 style="color:red;">
-                  	<c:if test="${not empty erreur}">
-                  		Attention : <c:out value="${erreur}"/>
+                  	<c:if test="${not empty error}">
+                  		Attention : <c:out value="${error}"/>
                   	</c:if>
-                  	<c:if test="${empty erreur}">
+                  	<c:if test="${empty error}">
                   		&nbsp;
                   	</c:if>
                   </td>
