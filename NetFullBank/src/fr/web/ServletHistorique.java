@@ -2,7 +2,7 @@ package fr.web;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,9 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.banque.Client;
-import fr.banque.Compte;
-import fr.banque.ICompteASeuil;
-import fr.banque.ICompteRemunere;
+import fr.banque.Operation;
 import fr.db.Db;
 
 /**
@@ -45,41 +43,27 @@ public class ServletHistorique extends Connect {
 			return;
 		}
 
-		int noClient = client.getNo();
-		List<Compte> listCpt = db.listerComptes(noClient);
+		int noCompte = Integer.valueOf(request.getParameter("noCompte"));
+		String inDateDebut = request.getParameter("inDateDebut");
 
-		if (listCpt == null) {
-			// TODO ajouter log4j et mettre une erreur
+		Calendar dateDebut = Calendar.getInstance();
+		dateDebut.
+		List<Operation> lstOperation = db.rechercherOperation(noCompte, null, null, true);
+
+		if (lstOperation == null) {
+			ServletHistorique.LOG.debug("historique : liste operations retourne null");
 			request.setAttribute("error", "Probleme d'acces a la liste de vos comptes");
-			ServletHistorique.LOG.debug("listerComptes retourne null idClient = " + noClient);
-			listCpt = new ArrayList<Compte>();
+			ServletHistorique.LOG.debug("historique retourne null noCompte = " + noCompte);
+			lstOperation = new ArrayList<Operation>();
 		}
 
-		List<BeanCompte> lstBeanCompte = new ArrayList<BeanCompte>();
-		for (Compte c : listCpt) {
-			BeanCompte beanC = new BeanCompte();
-			beanC.setNo(c.getNo());
-			beanC.setLibelle(c.getLibelle());
-			beanC.setSolde(c.getSolde());
-			if (c instanceof ICompteASeuil) {
-				beanC.setSeuil(((ICompteASeuil) c).getSeuil());
-				beanC.setHasSeuil(true);
-			}
-			if (c instanceof ICompteRemunere) {
-				beanC.setTaux(((ICompteRemunere) c).getTaux());
-				beanC.setHasTaux(true);
-			}
-			lstBeanCompte.add(beanC);
-		}
-
-		request.setAttribute("noClient", noClient);
-		request.setAttribute("lstBeanCompte", lstBeanCompte);
-		request.setAttribute("nomClient", db.recupererClient(noClient).getNom());
+		request.setAttribute("lstOperation", lstOperation);
+		ServletHistorique.LOG.debug("noCompte = ", noCompte);
+		request.setAttribute("noCompte", noCompte);
 
 		this.close(db);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher(this.pageHistorique);
 		dispatcher.forward(request, response);
 	}
-
 }

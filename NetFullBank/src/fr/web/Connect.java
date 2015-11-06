@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import fr.db.Db;
 
-public class Connect extends HttpServlet {
+public abstract class Connect extends HttpServlet {
 	private String pageLogin = "login.jsp";
 	private static final long serialVersionUID = 1L;
 	private String propertiesFileName = "mesPreferences.properties";

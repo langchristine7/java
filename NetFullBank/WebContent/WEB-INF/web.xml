@@ -10,14 +10,4 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  <servlet>
-    <description></description>
-    <display-name>Connect</display-name>
-    <servlet-name>Connect</servlet-name>
-    <servlet-class>fr.web.Connect</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Connect</servlet-name>
-    <url-pattern>/Connect</url-pattern>
-  </servlet-mapping>
 </web-app>

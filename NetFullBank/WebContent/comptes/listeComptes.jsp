@@ -12,12 +12,12 @@
 
 <body class="elBody">
 
-<form id="frmListeCompte" name="frmListeCompte" action="historique.html" method="post">
-
+<form id="frmListeCompte" name="frmListeCompte" action="<c:url value="/historique"/>" method="post">
+<input type="hidden" name="noCompte" id ="noCompte"/>
   <table border="0" width="100%">
     <tr>
       <td align="center" valign="top">
-        <img src="<c:url value="../images/titre.jpg"/>" border="0" height="98" alt=""/>
+        <img src="<c:url value="/images/titre.jpg"/>" border="0" height="98" alt="" >
       </td>
     </tr>
     <tr>
@@ -38,8 +38,7 @@
           
           <tr class="elLigneTableau1">
             <td class="elLibelleTableau">
-             <a href="javascript:frmListeCompte.submit()"><c:out value="${c.no}"/></a>
-          <input type="hidden" name="cpt_<c:out value="${c.no}"/>" id="cpt_<c:out value="${c.no}"/>">
+             <a href="javascript:setNoCompte(<c:out value="${c.no}"/>);"><c:out value="${c.no}"/></a>
             </td>
 			<td class="elLibelleTableau"><c:out value="${c.libelle}"/></td>
             <td class="elLibelleTableau">
@@ -59,20 +58,11 @@
 			</td>
             <td class="elLibelleTableau"><c:out value="${c.solde}"/>&nbsp;&euro;</td>
           </tr>
-          <tr class="elLigneTableau2">
-            <td class="elLibelleTableau">
-              <a href="javascript:frmListeCompte.submit()">2</a>
-            </td>
-            <td class="elLibelleTableau">Compte 2</td>
-			<td class="elLibelleTableau">--</td>
-            <td class="elLibelleTableau">10 Euros</td>
-            <td class="elLibelleTableau">120 Euros</td>
-          </tr>
           </c:forEach>
         </table>
         <p>
-          <a href="../menu.html">
-            <img src="../images/menu.gif" width="98" height="33" border="0" alt="" />
+          <a href="<c:url value="/menu"/>" >
+            <img src="<c:url value="/images/menu.gif"/>" width="98" height="33" border="0" alt="" />
           </a>
         </p>
       </td>
@@ -80,4 +70,13 @@
   </table>
 </form>
 </body>
+<script>
+function setNoCompte (noCompte)
+{
+	//alert(noCompte);
+	frmListeCompte.noCompte.value = noCompte;
+	frmListeCompte.submit();
+	//alert ("input hiddern : " + frmListeCompte.noCompte.value);
+}
+</script>
 </html>
