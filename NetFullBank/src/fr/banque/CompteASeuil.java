@@ -1,6 +1,8 @@
 package fr.banque;
 
-public class CompteASeuil extends Compte implements ICompteASeuil {
+import java.io.Serializable;
+
+public class CompteASeuil extends Compte implements ICompteASeuil, Serializable {
 	private double seuil;
 
 	public CompteASeuil() {

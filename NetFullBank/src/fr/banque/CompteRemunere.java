@@ -1,6 +1,8 @@
 package fr.banque;
 
-public class CompteRemunere extends Compte implements ICompteRemunere
+import java.io.Serializable;
+
+public class CompteRemunere extends Compte implements ICompteRemunere, Serializable
 
 {
 	/*

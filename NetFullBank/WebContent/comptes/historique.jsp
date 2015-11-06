@@ -9,19 +9,12 @@
  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
  <link href="<c:url value="/css/banque.css" />" rel="stylesheet" type="text/css">
  <link href="<c:url value="/css/calendar.css" />" rel="stylesheet" type="text/css">
- <script language="JavaScript" src="<c:url value="/librairie/Calendarcode.js"/> " type="text/javascript">
- <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
- <script src="//code.jquery.com/jquery-1.10.2.js"></script>
- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
- <link rel="stylesheet" href="/resources/demos/style.css">
-
-   // Inclusion du calendrier
-  </script>
-  <script>
-  $(function() {
-    $( "#datepickerDebut" ).datepicker();
-  });
-  </script>
+ <link rel="stylesheet" href="<c:url value="jqueryui/jquery-ui.css"/>">
+ <script language="JavaScript" src="<c:url value="/librairie/Calendarcode.js"/>" type="text/javascript"></script>
+ <script src="<c:url value="jqueryui/external/jquery/jquery.js"/>"></script>
+ <script src="<c:url value="jqueryui/jquery-ui.js"/>"></script>
+ <link rel="stylesheet" href="<c:url value="/resources/demos/style.css"/>">
+  
 </head>
 
 <body class="elBody" >
@@ -57,8 +50,8 @@
           </tr>
           <tr>
             <td width="460" bgcolor="#fae6a0" class="elLibelleTableau">
-              Du
-              <!-- 
+			<!-- Du
+         
               <input type="text" id="inDateDebut" name="inDateDebut" value=""/>
               
               <a class="so-BtnLink" onclick="showCalendar('frmListeOperations','inDateDebut','IMG_DATE_DEBUT');return false;">
@@ -69,8 +62,8 @@
                      src="<c:url value="/images/date_icon.gif"/>"
                      WIDTH="14" HEIGHT="14" alt=""/>
               </a>
-              -->
-              <input type="text" id="datepickerDebut">
+              
+              <input type="text" id="datepickerDebut" name="datepickerDebut">
 				&nbsp;&nbsp;
               Au
               <input type="text" name="inDateFin" id="inDateFin" value=""/>
@@ -83,7 +76,12 @@
                      src="<c:url value="/images/date_icon.gif"/>"
                      WIDTH="14" HEIGHT="14" alt=""/>
               </a>
-
+-->
+         Du <input type="text" id="inDateDebut" name="inDateDebut" placeholder="JJ/MM/AAAA" 
+         				style="margin-right:5px; margin-bottom:0px;" value="<c:out value="${dateDebut}"/>"/>
+         &nbsp;au <input type="text" name="inDateFin" id="inDateFin" 
+         				placeholder="JJ/MM/AAAA" style="margin-right:5px; margin-bottom:0px;" 
+         				value="<c:out value="${dateFin}"/>"/>
             </td>
             <td width="138" bgcolor="#fae6a0" class="elLibelleTableau">
              <p>Credit
@@ -133,6 +131,46 @@
     </tr>
   </table>
 </form>
-
 </body>
+
+<script>
+
+$(document).ready(function (){
+
+	$( "#inDateDebut" ).datepicker({
+    changeMonth: true,
+    changeYear: true,
+    showOn: "button",
+    buttonImage: "<c:url value="images/calendar.jpg"/>",
+    buttonImageOnly: true,
+    buttonText: "Select date",
+    maxDate: 0,
+    showWeek: true,
+    firstDay: 1,
+    onClose: function( selectedDate ) {
+     $( "#inDateFin" ).datepicker( "option", "minDate", selectedDate );
+    }
+   });
+	
+   $( "#inDateDebut" ).datepicker( "option", "dateFormat", "dd/mm/yy");
+   $( "#inDateFin" ).datepicker({
+    changeMonth: true,
+    changeYear: true,
+    showOn: "button",
+    buttonImage: "<c:url value="images/calendar.jpg"/>",
+    buttonImageOnly: true,
+    buttonText: "Select date",
+    maxDate: 0,
+    showWeek: true,
+    firstDay: 1,
+    onClose: function( selectedDate ) {
+     $( "#inDateDebut" ).datepicker( "option", "maxDate", selectedDate );
+    }
+   });
+   $( "#inDateFin" ).datepicker( "option", "dateFormat", "dd/mm/yy" );
+  
+});
+
+</script>
+
 </html>

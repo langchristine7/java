@@ -3,6 +3,8 @@ package fr.web;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -43,12 +45,22 @@ public class ServletHistorique extends Connect {
 			return;
 		}
 
-		int noCompte = Integer.valueOf(request.getParameter("noCompte"));
-		String inDateDebut = request.getParameter("inDateDebut");
+		int noCompte = Integer.parseInt(request.getParameter("noCompte"));
+		request.setAttribute("noCompte", noCompte);
 
-		Calendar dateDebut = Calendar.getInstance();
-		dateDebut.
-		List<Operation> lstOperation = db.rechercherOperation(noCompte, null, null, true);
+		String inDateDebut = request.getParameter("inDateDebut");
+		Date dateDebutDate = null;
+		String inDateFin = request.getParameter("inDateFin");
+		Date dateFinDate = null;
+
+		if (inDateDebut != null) {
+			Calendar dateDebutCal = Calendar.getInstance();
+			dateDebutCal.set(Integer.valueOf(inDateDebut.split("/")[2]), Integer.valueOf(inDateDebut.split("/")[1]) - 1,
+					Integer.valueOf(inDateDebut.split("/")[0]));
+			dateDebutDate = new Date(dateDebutCal.getTimeInMillis());
+		}
+
+		List<Operation> lstOperation = db.rechercherOperation(noCompte, dateDebutDate, null, true);
 
 		if (lstOperation == null) {
 			ServletHistorique.LOG.debug("historique : liste operations retourne null");
