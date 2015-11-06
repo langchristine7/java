@@ -53,7 +53,7 @@ public class ServletHistorique extends Connect {
 		String inDateFin = request.getParameter("inDateFin");
 		Date dateFinDate = null;
 
-		if (inDateDebut != null) {
+		if ((inDateDebut != null) && !inDateDebut.equals("")) {
 			Calendar dateDebutCal = Calendar.getInstance();
 			dateDebutCal.set(Integer.valueOf(inDateDebut.split("/")[2]), Integer.valueOf(inDateDebut.split("/")[1]) - 1,
 					Integer.valueOf(inDateDebut.split("/")[0]));

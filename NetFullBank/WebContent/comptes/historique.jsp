@@ -14,7 +14,43 @@
  <script src="<c:url value="jqueryui/external/jquery/jquery.js"/>"></script>
  <script src="<c:url value="jqueryui/jquery-ui.js"/>"></script>
  <link rel="stylesheet" href="<c:url value="/resources/demos/style.css"/>">
+ 
+<script>
+
+	$( "#inDateDebut" ).datepicker({
+    changeMonth: true,
+    changeYear: true,
+    showOn: "button",
+    buttonImage: "<c:url value="images/calendar.jpg"/>",
+    buttonImageOnly: true,
+    buttonText: "Select date",
+    maxDate: 0,
+    showWeek: true,
+    firstDay: 1,
+    onClose: function( selectedDate ) {
+     $( "#inDateFin" ).datepicker( "option", "minDate", selectedDate );
+    }
+   });
+	
+   $( "#inDateDebut" ).datepicker( "option", "dateFormat", "dd/mm/yy");
+   $( "#inDateFin" ).datepicker({
+    changeMonth: true,
+    changeYear: true,
+    showOn: "button",
+    buttonImage: "<c:url value="images/calendar.jpg"/>",
+    buttonImageOnly: true,
+    buttonText: "Select date",
+    maxDate: 0,
+    showWeek: true,
+    firstDay: 1,
+    onClose: function( selectedDate ) {
+     $( "#inDateDebut" ).datepicker( "option", "maxDate", selectedDate );
+    }
+   });
+   $( "#inDateFin" ).datepicker( "option", "dateFormat", "dd/mm/yy" );
   
+
+</script>
 </head>
 
 <body class="elBody" >
@@ -22,7 +58,7 @@
 <div id="popupcalendar" class="text">&nbsp;</div>
 <form id="frmListeOperations" name="frmListeOperations" action="<c:url value="/historique"/>" method="post">
 
-  <input type="hidden" name="inNumeroCompte" value="" />
+  <input type="hidden" name="noCompte" value="${noCompte}" />
 
   <table border="0" width="100%">
     <tr>
@@ -135,41 +171,7 @@
 
 <script>
 
-$(document).ready(function (){
 
-	$( "#inDateDebut" ).datepicker({
-    changeMonth: true,
-    changeYear: true,
-    showOn: "button",
-    buttonImage: "<c:url value="images/calendar.jpg"/>",
-    buttonImageOnly: true,
-    buttonText: "Select date",
-    maxDate: 0,
-    showWeek: true,
-    firstDay: 1,
-    onClose: function( selectedDate ) {
-     $( "#inDateFin" ).datepicker( "option", "minDate", selectedDate );
-    }
-   });
-	
-   $( "#inDateDebut" ).datepicker( "option", "dateFormat", "dd/mm/yy");
-   $( "#inDateFin" ).datepicker({
-    changeMonth: true,
-    changeYear: true,
-    showOn: "button",
-    buttonImage: "<c:url value="images/calendar.jpg"/>",
-    buttonImageOnly: true,
-    buttonText: "Select date",
-    maxDate: 0,
-    showWeek: true,
-    firstDay: 1,
-    onClose: function( selectedDate ) {
-     $( "#inDateDebut" ).datepicker( "option", "maxDate", selectedDate );
-    }
-   });
-   $( "#inDateFin" ).datepicker( "option", "dateFormat", "dd/mm/yy" );
-  
-});
 
 </script>
 
