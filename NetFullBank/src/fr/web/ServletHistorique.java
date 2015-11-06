@@ -20,17 +20,16 @@ import fr.banque.ICompteRemunere;
 import fr.db.Db;
 
 /**
- * Servlet implementation class ServletCompte
+ * Servlet implementation class ServletHistorique
  */
-@WebServlet(description = "Liste des comptes", urlPatterns = { "/listeComptes" })
-public class ServletListeComptes extends Connect {
+@WebServlet("/historique")
+public class ServletHistorique extends Connect {
 	private static final long serialVersionUID = 1L;
-	private final static Logger LOG = LogManager.getLogger(ServletListeComptes.class);
-	private String pageListeComptes = "/comptes/listeComptes.jsp";
+	private final static Logger LOG = LogManager.getLogger(ServletHistorique.class);
+	private String pageHistorique = "/comptes/historique.jsp";
 
 	@Override
-	protected void service(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		Client client = (Client) request.getSession(true).getAttribute("client");
 
@@ -50,9 +49,9 @@ public class ServletListeComptes extends Connect {
 		List<Compte> listCpt = db.listerComptes(noClient);
 
 		if (listCpt == null) {
-			//TODO ajouter log4j et mettre une erreur
+			// TODO ajouter log4j et mettre une erreur
 			request.setAttribute("error", "Probleme d'acces a la liste de vos comptes");
-			ServletListeComptes.LOG.debug("listerComptes retourne null idClient = " + noClient);
+			ServletHistorique.LOG.debug("listerComptes retourne null idClient = " + noClient);
 			listCpt = new ArrayList<Compte>();
 		}
 
@@ -73,14 +72,13 @@ public class ServletListeComptes extends Connect {
 			lstBeanCompte.add(beanC);
 		}
 
-
 		request.setAttribute("noClient", noClient);
 		request.setAttribute("lstBeanCompte", lstBeanCompte);
 		request.setAttribute("nomClient", db.recupererClient(noClient).getNom());
 
 		this.close(db);
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher(this.pageListeComptes);
+		RequestDispatcher dispatcher = request.getRequestDispatcher(this.pageHistorique);
 		dispatcher.forward(request, response);
 	}
 
