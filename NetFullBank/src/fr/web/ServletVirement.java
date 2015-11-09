@@ -20,17 +20,21 @@ import fr.banque.ICompteRemunere;
 import fr.db.Db;
 
 /**
- * Servlet implementation class ServletCompte
+ * Servlet implementation class ServletVirement
  */
-@WebServlet(description = "Liste des comptes", urlPatterns = { "/listeComptes" })
-public class ServletListeComptes extends Connect {
+@WebServlet("/virement")
+public class ServletVirement extends Connect {
 	private static final long serialVersionUID = 1L;
+	private final static Logger LOG = LogManager.getLogger(ServletVirement.class);
 
-	private final static Logger LOG = LogManager.getLogger(ServletListeComptes.class);
+	public ServletVirement() {
+		super();
+	}
 
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		Db db = null;
 
 		Client client = (Client) request.getSession(true).getAttribute("client");
 
@@ -41,22 +45,22 @@ public class ServletListeComptes extends Connect {
 		}
 
 		int noClient = client.getNo();
-
+		request.setAttribute("noClient", noClient);
 		List<BeanCompte> lstBeanCompte = null;
-		Db db = null;
+
 		try {
+
 			db = this.getConnexion(request, response);
 
 			if (db == null) {
-				RequestDispatcher dispatcher = request.getRequestDispatcher(this.pageListeComptes);
-				dispatcher.forward(request, response);
+				return;
 			}
 
 			List<Compte> listCpt = db.listerComptes(noClient);
 
 			if (listCpt == null) {
 				request.setAttribute("error", "Probleme d'acces a la liste de vos comptes");
-				ServletListeComptes.LOG.debug("listerComptes retourne null idClient = " + noClient);
+				ServletVirement.LOG.debug("listerComptes retourne null idClient = " + noClient);
 				listCpt = new ArrayList<Compte>();
 			}
 
@@ -77,20 +81,17 @@ public class ServletListeComptes extends Connect {
 				lstBeanCompte.add(beanC);
 			}
 
-		}
-
-		catch (Exception e) {
+		} catch (RuntimeException e) {
 			request.setAttribute("error", "Probleme d'acces a la liste de vos comptes");
-			ServletListeComptes.LOG.debug("exception e :  " + e.getMessage());
-		}
+			ServletVirement.LOG.debug("listerComptes retourne null idClient = " + noClient);
 
-		finally {
-			request.setAttribute("lstBeanCompte", lstBeanCompte);
-			request.setAttribute("noClient", noClient);
+		} finally {
 			this.close(db);
 		}
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher(this.pageListeComptes);
+		request.setAttribute("lstBeanCompte", lstBeanCompte);
+
+		RequestDispatcher dispatcher = request.getRequestDispatcher(this.pageVirement);
 		dispatcher.forward(request, response);
 	}
 

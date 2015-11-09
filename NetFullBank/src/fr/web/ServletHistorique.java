@@ -26,7 +26,6 @@ import fr.db.Db;
 public class ServletHistorique extends Connect {
 	private static final long serialVersionUID = 1L;
 	private final static Logger LOG = LogManager.getLogger(ServletHistorique.class);
-	private String pageHistorique = "/comptes/historique.jsp";
 
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/menu")
 public class ServletMenu extends Connect {
 	private static final long serialVersionUID = 1L;
-	private String pageMenu = "menu.jsp";
 
 	/**
 	 * @see HttpServlet#HttpServlet()

@@ -86,7 +86,7 @@ public class ServletLogin extends Connect {
 
 		request.getSession(true).setAttribute("client", clt);
 		request.setAttribute("password", null);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("menu.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher(pageMenu);
 		dispatcher.forward(request, response);
 	}
 

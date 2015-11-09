@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import fr.banque.BanqueException;
 import fr.banque.Client;
 import fr.banque.Compte;
@@ -26,6 +29,7 @@ public class Db {
 	private String password = "root";
 	private String url = "jdbc:mysql://localhost:3306/banque";
 	private Connection laConnexion = null;
+	private final static Logger LOG = LogManager.getLogger(Db.class);
 
 	public Db() throws ClassNotFoundException {
 		System.out.println("creation classe connexion ");
@@ -41,7 +45,8 @@ public class Db {
 	 * @throws ClassNotFoundException
 	 */
 	public Db(String nomDuDriver, String url, String login, String password) throws ClassNotFoundException {
-		System.out.println("creation classe connexion ");
+		// System.out.println("creation classe connexion ");
+		Db.LOG.debug("connexion Db");
 		Class.forName(nomDuDriver); // on charge le driver
 		this.nomDuDriver = nomDuDriver;
 		this.url = url;

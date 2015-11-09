@@ -12,7 +12,7 @@
 
 <body  class="elBody">
 
-<form name="frmVirements" action="#" method="post">
+<form name="frmVirements" action="<c:url value="/validerVirement"/>"  method="post">
 
   <table border="0" width="100%" align="center">
     <tr>
@@ -35,9 +35,9 @@
              </td>
              <td>
                <select name="inCmptEme" id="inCmptEme">
-                <option value="">&nbsp;&nbsp;&nbsp;--&nbsp;Choix&nbsp;--&nbsp;&nbsp;&nbsp;</option>
+                <option value="0">&nbsp;&nbsp;&nbsp;--&nbsp;Choix&nbsp;--&nbsp;&nbsp;&nbsp;</option>
                 <c:forEach var="c" items="${lstBeanCompte}">
-	                <option value="${c.no}">${c.no} - ${c.libelle }</option>
+	                <option value="${c.no}">${c.no} - ${c.libelle}</option>
                 </c:forEach>
                </select>
              </td>
@@ -48,7 +48,7 @@
             </td>
              <td>
                <select name="inCmptDes" id="inCmptDes">
-                <option value="">&nbsp;&nbsp;&nbsp;--&nbsp;Choix&nbsp;--&nbsp;&nbsp;&nbsp;</option>
+                <option value="0">&nbsp;&nbsp;&nbsp;--&nbsp;Choix&nbsp;--&nbsp;&nbsp;&nbsp;</option>
                 <c:forEach var="c" items="${lstBeanCompte}">
 	                <option value="${c.no}">${c.no} - ${c.libelle }</option>
                 </c:forEach>

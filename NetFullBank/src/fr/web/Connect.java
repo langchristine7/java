@@ -17,8 +17,14 @@ import org.apache.logging.log4j.Logger;
 import fr.db.Db;
 
 public abstract class Connect extends HttpServlet {
-	private String pageLogin = "login.jsp";
 	private static final long serialVersionUID = 1L;
+
+	protected String pageLogin = "/login.jsp";
+	protected String pageMenu = "/menu.jsp";
+	protected String pageHistorique = "/comptes/historique.jsp";
+	protected String pageVirement = "/comptes/virement.jsp";
+	protected String pageListeComptes = "/comptes/listeComptes.jsp";
+
 	private String propertiesFileName = "mesPreferences.properties";
 	private final static Logger LOG = LogManager.getLogger(Connect.class);
 
