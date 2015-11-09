@@ -31,13 +31,13 @@
                     <td width="446" class="elCelluleTableau3">
                       <img src="images/puce.gif" width="13" height="18" alt=""/>&nbsp;
                    <!--     <a href="<c:url value="/comptes/liste.html"/>"> Liste de vos comptes</a> -->
-                      <a href="<c:url value="listeComptes"/>"> Liste de vos comptes</a>
+                      <a href="<c:url value="/listeComptes"/>"> Liste de vos comptes</a>
                     </td>
                   </tr>
                   <tr class="elLigneTableau2">
                     <td width="446" class="elCelluleTableau3">
                       <img src="images/puce.gif" width="13" height="18" alt="" />&nbsp;
-                      <a href="<c:url value="virement"/>" > Virement </a>
+                      <a href="<c:url value="/virement"/>" > Virement </a>
                     </td>
                   </tr>
                 </table>

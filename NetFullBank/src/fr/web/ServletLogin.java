@@ -27,7 +27,7 @@ public class ServletLogin extends Connect {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		this.retourneAuLogin(request, response);
+		Connect.retourneAuLogin(request, response);
 	}
 
 	@Override
@@ -44,12 +44,12 @@ public class ServletLogin extends Connect {
 
 		if (this.login.isEmpty()) {
 			request.setAttribute("error", "Renseignez le login");
-			this.retourneAuLogin(request, response);
+			Connect.retourneAuLogin(request, response);
 			return;
 		}
 		if (this.password.isEmpty()) {
 			request.setAttribute("error", "Renseignez le mot de passe");
-			this.retourneAuLogin(request, response);
+			Connect.retourneAuLogin(request, response);
 			return;
 		}
 
@@ -70,13 +70,13 @@ public class ServletLogin extends Connect {
 		} catch (Exception e) {
 			request.setAttribute("error", "Problème de connexion, merci de contacter l'administrateur");
 			ServletLogin.LOG.debug("Pb authentifier " + e.getMessage());
-			this.retourneAuLogin(request, response);
+			Connect.retourneAuLogin(request, response);
 			return;
 		}
 		if (clt == null) {
 			request.setAttribute("error", "Le nom d'utilisateur ou le mot de passe ne sont pas corrects");
 			ServletLogin.LOG.info("user/mdp incorrect");
-			this.retourneAuLogin(request, response);
+			Connect.retourneAuLogin(request, response);
 			return;
 		}
 
@@ -86,7 +86,7 @@ public class ServletLogin extends Connect {
 
 		request.getSession(true).setAttribute("client", clt);
 		request.setAttribute("password", null);
-		RequestDispatcher dispatcher = request.getRequestDispatcher(pageMenu);
+		RequestDispatcher dispatcher = request.getRequestDispatcher(this.pageMenu);
 		dispatcher.forward(request, response);
 	}
 

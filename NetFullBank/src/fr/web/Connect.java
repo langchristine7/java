@@ -19,7 +19,7 @@ import fr.db.Db;
 public abstract class Connect extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected String pageLogin = "/login.jsp";
+	protected static String pageLogin = "/login.jsp";
 	protected String pageMenu = "/menu.jsp";
 	protected String pageHistorique = "/comptes/historique.jsp";
 	protected String pageVirement = "/comptes/virement.jsp";
@@ -28,9 +28,9 @@ public abstract class Connect extends HttpServlet {
 	private String propertiesFileName = "mesPreferences.properties";
 	private final static Logger LOG = LogManager.getLogger(Connect.class);
 
-	protected void retourneAuLogin(HttpServletRequest request, HttpServletResponse response)
+	public static void retourneAuLogin(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher(this.pageLogin);
+		RequestDispatcher dispatcher = request.getRequestDispatcher(Connect.pageLogin);
 		dispatcher.forward(request, response);
 		return;
 	}
@@ -48,7 +48,7 @@ public abstract class Connect extends HttpServlet {
 			request.setAttribute("error", "Problème de connexion, merci de contacter l'administrateur.");
 			Connect.LOG.error(
 					"Impossible de lire le fichier properties : " + this.propertiesFileName + " : " + e.getMessage());
-			this.retourneAuLogin(request, response);
+			Connect.retourneAuLogin(request, response);
 			return null;
 		}
 
@@ -62,7 +62,7 @@ public abstract class Connect extends HttpServlet {
 		} catch (ClassNotFoundException e) {
 			request.setAttribute("error", "Problème de connexion, merci de contacter l'administrateur.");
 			Connect.LOG.error("Impossible de creer objet DB : " + e.getMessage());
-			this.retourneAuLogin(request, response);
+			Connect.retourneAuLogin(request, response);
 			return null;
 		}
 
@@ -72,13 +72,13 @@ public abstract class Connect extends HttpServlet {
 		} catch (SQLException e) {
 			request.setAttribute("error", "Problème de connexion, merci de contacter l'administrateur.");
 			Connect.LOG.error("erreur seConnecter() : " + e.getMessage());
-			this.retourneAuLogin(request, response);
+			Connect.retourneAuLogin(request, response);
 			return null;
 
 		} catch (RuntimeException e) {
 			request.setAttribute("error", "Problème de connexion, merci de contacter l'administrateur.");
 			Connect.LOG.error("erreur seConnecter() : " + e.getMessage());
-			this.retourneAuLogin(request, response);
+			Connect.retourneAuLogin(request, response);
 			return null;
 		}
 

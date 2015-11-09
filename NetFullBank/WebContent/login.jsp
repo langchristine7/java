@@ -15,10 +15,10 @@
     <table width="100%">
       <tr>
         <td align="right" valign="top">
-          <img src="images/titre.jpg" alt=""/>
+          <img src="<c:url value="/images/titre.jpg"/>" alt=""/>
         </td>
         <td rowspan="2">
-          <img src="images/image-femme.jpg" alt="" />
+          <img src="<c:url value="/images/image-femme.jpg"/>" alt="" />
         </td>
       </tr>
       <tr>
@@ -69,7 +69,7 @@
                     <td colspan="2" align="center">
                       <p>&nbsp;</p>
                       <a href="javascript:frmLogin.submit()">
-                        <img src="images/bouton-validez.gif" width="98" height="33" border="0" alt="" />
+                        <img src="<c:url value="/images/bouton-validez.gif"/>" width="98" height="33" border="0" alt="" />
                       </a>
                     </td>
                   </tr>
