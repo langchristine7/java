@@ -30,51 +30,70 @@ public class ServletHistorique extends Connect {
 
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Db db = null;
+		List<Operation> lstOperation = null;
+		int noCompte = 0;
 
-		Client client = (Client) request.getSession(true).getAttribute("client");
+		try {
+			Client client = (Client) request.getSession(true).getAttribute("client");
 
-		if (client == null) {
-			request.setAttribute("error", "Merci de vous connecter");
-			this.retourneAuLogin(request, response);
-			return;
-		}
+			if (client == null) {
+				request.setAttribute("error", "Merci de vous connecter");
+				this.retourneAuLogin(request, response);
+				return;
+			}
 
-		Db db = this.getConnexion(request, response);
+			db = this.getConnexion(request, response);
 
-		if (db == null) {
-			return;
-		}
+			if (db == null) {
+				return;
+			}
 
-		int noCompte = Integer.parseInt(request.getParameter("noCompte"));
-		request.setAttribute("noCompte", noCompte);
+			noCompte = Integer.parseInt(request.getParameter("noCompte"));
+			request.setAttribute("noCompte", noCompte);
 
-		String inDateDebut = request.getParameter("inDateDebut");
-		Date dateDebutDate = null;
-		String inDateFin = request.getParameter("inDateFin");
-		Date dateFinDate = null;
+			String inDateDebut = request.getParameter("inDateDebut");
+			Date dateDebutDate = null;
+			String inDateFin = request.getParameter("inDateFin");
+			Date dateFinDate = null;
 
-		if ((inDateDebut != null) && !inDateDebut.equals("")) {
-			Calendar dateDebutCal = Calendar.getInstance();
-			dateDebutCal.set(Integer.valueOf(inDateDebut.split("/")[2]), Integer.valueOf(inDateDebut.split("/")[1]) - 1,
-					Integer.valueOf(inDateDebut.split("/")[0]));
-			dateDebutDate = new Date(dateDebutCal.getTimeInMillis());
-		}
+			if ((inDateDebut != null) && !inDateDebut.equals("")) {
+				Calendar dateDebutCal = Calendar.getInstance();
+				dateDebutCal.set(Integer.valueOf(inDateDebut.split("/")[2]), Integer.valueOf(inDateDebut.split("/")[1]) - 1,
+						Integer.valueOf(inDateDebut.split("/")[0]));
+				dateDebutDate = new Date(dateDebutCal.getTimeInMillis());
+			}
 
-		List<Operation> lstOperation = db.rechercherOperation(noCompte, dateDebutDate, null, true);
+			if ((inDateFin != null) && !inDateFin.equals("")) {
+				Calendar dateFinCal = Calendar.getInstance();
+				dateFinCal.set(Integer.valueOf(inDateFin.split("/")[2]), Integer.valueOf(inDateFin.split("/")[1]) - 1,
+						Integer.valueOf(inDateFin.split("/")[0]));
+				dateFinDate = new Date(dateFinCal.getTimeInMillis());
+			}
 
-		if (lstOperation == null) {
-			ServletHistorique.LOG.debug("historique : liste operations retourne null");
-			request.setAttribute("error", "Probleme d'acces a la liste de vos comptes");
-			ServletHistorique.LOG.debug("historique retourne null noCompte = " + noCompte);
+			lstOperation = db.rechercherOperation(noCompte, dateDebutDate, dateFinDate, null);
+
+			if (lstOperation == null) {
+				ServletHistorique.LOG.debug("historique : liste operations retourne null");
+				request.setAttribute("error", "Probleme d'acces a la liste des operations");
+				ServletHistorique.LOG.debug("historique retourne null noCompte = " + noCompte);
+				request.setAttribute("noCompte", noCompte);
+
+				lstOperation = new ArrayList<Operation>();
+			}
+
+			request.setAttribute("lstOperation", lstOperation);
+			ServletHistorique.LOG.debug("noCompte = ", noCompte);
+			request.setAttribute("noCompte", noCompte);
+
+		} catch (Exception e) {
+			ServletHistorique.LOG.debug("historique compte no " + noCompte + "execption :  " + e.getMessage());
+			request.setAttribute("error", "Probleme d'acces a la liste des operations");
 			lstOperation = new ArrayList<Operation>();
 		}
-
-		request.setAttribute("lstOperation", lstOperation);
-		ServletHistorique.LOG.debug("noCompte = ", noCompte);
-		request.setAttribute("noCompte", noCompte);
-
-		this.close(db);
-
+		finally {
+			this.close(db);
+		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher(this.pageHistorique);
 		dispatcher.forward(request, response);
 	}

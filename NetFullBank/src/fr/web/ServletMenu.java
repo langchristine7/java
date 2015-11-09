@@ -9,15 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fr.banque.Client;
-import fr.db.Db;
-
 /**
  * Servlet implementation class ServletMenu
  */
 @WebServlet("/menu")
-public class ServletMenu extends HttpServlet {
+public class ServletMenu extends Connect {
 	private static final long serialVersionUID = 1L;
+	private String pageMenu = "menu.jsp";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -31,15 +29,9 @@ public class ServletMenu extends HttpServlet {
 	 */
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Db db = (Db)  request.getSession(true).getAttribute("db");
-		Client client = (Client) request.getSession(true).getAttribute("client");
-		if (db == null) {
-			request.setAttribute("error", "Merci de vous connecter");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("login.asp");
-			dispatcher.forward(request, response);
-		}
 
-
+		RequestDispatcher dispatcher = request.getRequestDispatcher(this.pageMenu);
+		dispatcher.forward(request, response);
 	}
 
 }

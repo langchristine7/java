@@ -344,24 +344,22 @@ public class Db {
 			requete = "select * from operation where compteId = ? ";
 			ste = this.laConnexion.prepareStatement(requete);
 			ste.setInt(1, cptId);
-			if ((debut != null) || (fin != null)) {
-				requete += " and date > ? and date < ? ";
 
-				if (debut == null) {
-					debut = new Date();
-				}
-				ste.setDate(2, new java.sql.Date(debut.getTime()));
-
-				if (fin == null) {
-					fin = new Date();
-				}
-				ste.setDate(3, new java.sql.Date(fin.getTime()));
+			if (debut != null) {
+				requete += " and date > ";
+				requete += new java.sql.Date(debut.getTime());
 			}
+
+			if (fin != null) {
+				requete += " and date < ";
+				requete += new java.sql.Date(fin.getTime());
+			}
+
 			if (creditDebit != null) {
 				if (creditDebit.booleanValue()) {
-					requete += " and montant > 0";
+					requete += " and montant > 0 ";
 				} else if (!creditDebit.booleanValue()) {
-					requete += " and montant < 0";
+					requete += " and montant < 0 ";
 				}
 			}
 

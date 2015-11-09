@@ -17,39 +17,6 @@
  
 <script>
 
-	$( "#inDateDebut" ).datepicker({
-    changeMonth: true,
-    changeYear: true,
-    showOn: "button",
-    buttonImage: "<c:url value="images/calendar.jpg"/>",
-    buttonImageOnly: true,
-    buttonText: "Select date",
-    maxDate: 0,
-    showWeek: true,
-    firstDay: 1,
-    onClose: function( selectedDate ) {
-     $( "#inDateFin" ).datepicker( "option", "minDate", selectedDate );
-    }
-   });
-	
-   $( "#inDateDebut" ).datepicker( "option", "dateFormat", "dd/mm/yy");
-   $( "#inDateFin" ).datepicker({
-    changeMonth: true,
-    changeYear: true,
-    showOn: "button",
-    buttonImage: "<c:url value="images/calendar.jpg"/>",
-    buttonImageOnly: true,
-    buttonText: "Select date",
-    maxDate: 0,
-    showWeek: true,
-    firstDay: 1,
-    onClose: function( selectedDate ) {
-     $( "#inDateDebut" ).datepicker( "option", "maxDate", selectedDate );
-    }
-   });
-   $( "#inDateFin" ).datepicker( "option", "dateFormat", "dd/mm/yy" );
-  
-
 </script>
 </head>
 
@@ -130,9 +97,15 @@
           </tr>
         </table>
         <p><a href="javascript:frmListeOperations.submit()">
-             <img src="../images/rechercher.gif" width="98" height="33" border="0" alt=""/>
+             <img src="<c:url value="/images/rechercher.gif"/> " width="98" height="33" border="0" alt=""/>
            </a>
         </p>
+        <c:if test="${not empty error}">
+                  		Attention : <c:out value="${error}"/>
+        </c:if>
+        <c:if test="${empty error}">
+                  		&nbsp;
+        </c:if>
         <p>&nbsp;</p>
         <table width="70%" border="1">
           <tr bgcolor="white">
@@ -157,7 +130,7 @@
                 </a>
             </td>
             <td>&nbsp;</td>
-            <td><a href="<c:url value="/menu"/>" > 
+            <td><a href="<c:url value="menu"/>" > 
                   <img src="<c:url value="/images/menu.gif"/>" width="98" height="33" border="0" alt=""/>
                 </a>
             </td>
@@ -171,6 +144,43 @@
 
 <script>
 
+$(document).ready( function () {
+    /*$('#table_id').DataTable(); */
+ 
+ $( "#inDateDebut" ).datepicker({
+  changeMonth: true,
+  changeYear: true,
+  showOn: "button",
+  buttonImage: "<c:url value="images/calendar.jpg"/>",
+  buttonImageOnly: true,
+  buttonText: "Select date",
+  maxDate: 0,
+  showWeek: true,
+  firstDay: 1,
+  dateFormat: "dd/mm/yy",
+  onClose: function( selectedDate ) {
+   $( "#inDateFin" ).datepicker( "option", "minDate", selectedDate );
+  }
+ });
+ $( "#inDateFin" ).datepicker({
+  changeMonth: true,
+  changeYear: true,
+  showOn: "button",
+  buttonImage: "<c:url value="images/calendar.jpg"/>",
+  buttonImageOnly: true,
+  buttonText: "Select date",
+  maxDate: 0,
+  showWeek: true,
+  firstDay: 1,
+  dateFormat: "dd/mm/yy",
+  onClose: function( selectedDate ) {
+   $( "#inDateDebut" ).datepicker( "option", "maxDate", selectedDate );
+  }
+ });
+ 
+ $("#inDateDebut").mask("99/99/9999",{placeholder:"JJ/MM/AAAA"});
+ $("#inDateFin").mask("99/99/9999",{placeholder:"JJ/MM/AAAA"});
+});
 
 
 </script>
