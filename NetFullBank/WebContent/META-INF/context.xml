@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context path="/NetFullBank" reloadable="false">
+<WatchedResource>WEB-INF/web.xml</WatchedResource>
+<!-- 
+ Configuration de la datasource
+ne pas oublier de declarer le lien entre cette data source et l'application dans le fichier 
+ -->
+
+<Resource name="jdbc/NetFullBankPool"
+	auth="Container"
+	type="javax.sql.DataSource"
+	initialSize="60"
+	maxActive="50"
+	minIdle="5"
+	maxIdle="10"
+	maxWait="30000"
+	validationQuery="select 1"
+
+	driverClassName="com.mysql.jdbc.Driver"
+	username="root"
+	password="root"
+	url="jdbc:mysql://localhost/NetFullBank"
+/>
+
+</Context>
