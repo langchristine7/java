@@ -1,7 +1,5 @@
 package fr.web.filter;
 
-import java.io.IOException;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -15,10 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.*;
 import fr.web.Connect;
 
 /**
- * Servlet Filter implementation class Authentifie
+ * Servlet Filter implementation class AuthentifieFilter
  */
 @WebFilter("/AuthentifieFilter")
 public class AuthentifieFilter implements Filter {
@@ -38,7 +37,7 @@ public class AuthentifieFilter implements Filter {
 	}
 
 	/**
-	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
+	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain) 
 	 */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
