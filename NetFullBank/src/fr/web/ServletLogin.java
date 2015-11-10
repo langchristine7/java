@@ -7,12 +7,14 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.banque.Client;
 import fr.db.Db;
+import fr.web.connexion.WebConnexion;
 
 /**
  * Servlet implementation class ServletLogin
@@ -84,8 +86,15 @@ public class ServletLogin extends Connect {
 
 		// connexion is ok
 
+		HttpSession session = request.getSession(true);
+		Client ancienClient = (Client) session.getAttribute("client");
+		if (ancienClient != null) {
+			WebConnexion.removeConnexion(session);
+		}
+
 		request.getSession(true).setAttribute("client", clt);
 		request.setAttribute("password", null);
+		WebConnexion.addConnexion(session);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(this.pageMenu);
 		dispatcher.forward(request, response);
 	}

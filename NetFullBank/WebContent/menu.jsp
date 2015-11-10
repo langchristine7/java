@@ -47,5 +47,12 @@
       </td>
     </tr>
   </table>
+  <div>
+  <div style="width:50%"  ><a href="<c:url value="/deconnexion"/>" >Deconnexion</a></div>
+  <div style="width:50%"  >Nombre de connexions : 
+  	<c:if test = "${empty nbConnexions}">0</c:if> 
+  	<c:if test = "${!empty nbConnexions}"> 
+  	<c:out value="${nbConnexions}"/></c:if></div>
+  </div>
 </body>
 </html>
