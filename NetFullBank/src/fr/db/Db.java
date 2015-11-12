@@ -1,7 +1,6 @@
 package fr.db;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,6 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,61 +27,45 @@ import fr.banque.Operation;
 
 public class Db {
 
-	private String nomDuDriver = "com.mysql.jdbc.Driver";
-	private String login = "root";
-	private String password = "root";
-	private String url = "jdbc:mysql://localhost:3306/banque";
+	private DataSource dataSource = null;
+
+	// private String nomDuDriver = "com.mysql.jdbc.Driver";
+	// private String login = "root";
+	// private String password = "root";
+	// private String url = "jdbc:mysql://localhost:3306/banque";
 	private Connection laConnexion = null;
 	private final static Logger LOG = LogManager.getLogger(Db.class);
+	private String theJndiName = "jdbc/NetFullBankPool";
 
-	public Db() throws ClassNotFoundException {
-		System.out.println("creation classe connexion ");
-		Class.forName(this.nomDuDriver); // on charge le driver
-	}
-
-	/**
-	 *
-	 * @param nomDuDriver
-	 * @param url
-	 * @param login
-	 * @param password
-	 * @throws ClassNotFoundException
-	 */
-	public Db(String nomDuDriver, String url, String login, String password) throws ClassNotFoundException {
-		// System.out.println("creation classe connexion ");
-		Db.LOG.debug("connexion Db");
-		Class.forName(nomDuDriver); // on charge le driver
-		this.nomDuDriver = nomDuDriver;
-		this.url = url;
-		this.login = login;
-		this.password = password;
+	public Db() throws SQLException, NamingException {
+		javax.naming.Context context = new InitialContext();
+		this.dataSource = (DataSource) context.lookup("java:comp/env/" + theJndiName);
 	}
 
 	public Connection getCxn() {
-		return this.laConnexion;
-	}
+		if (laConnexion == null) {
+			LOG.debug("getCxn : n'est pas connecte");
+			return null;
+		}
 
-	public void seConnecter(String unLogin, String unPassword, String unUrl) throws SQLException {
-		this.login = unLogin;
-		this.password = unPassword;
-		this.url = unUrl;
-		this.seConnecter();
+		return this.laConnexion;
 	}
 
 	public void seConnecter() throws SQLException {
 		if (this.laConnexion == null) {
-			this.laConnexion = DriverManager.getConnection(this.url, this.login, this.password);
+			this.laConnexion = dataSource.getConnection();
 		}
 	}
 
 	public void seDeconnecter() {
 		if (this.laConnexion == null) {
+			LOG.debug("seDeconnecter : n'etait pas connecte");
 			return;
 		}
 		try {
 			this.laConnexion.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			LOG.debug("seDeconnecter : pb pour fermer la connexion db" + e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -132,16 +119,14 @@ public class Db {
 					resultat.close();
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOG.debug("recuperer client : pb sql : " + e.getMessage());
 			}
 			try {
 				if (ste != null) {
 					ste.close();
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOG.debug("recuperer client : pb sql : " + e.getMessage());
 			}
 
 		}
@@ -198,7 +183,7 @@ public class Db {
 					resultat.close();
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				LOG.debug("listerClients : pb sql : " + e.getMessage());
 				e.printStackTrace();
 			}
 			try {
@@ -206,7 +191,7 @@ public class Db {
 					ste.close();
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				LOG.debug("listerClients : pb sql : " + e.getMessage());
 				e.printStackTrace();
 			}
 
@@ -236,7 +221,7 @@ public class Db {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.debug("listerComptes : pb sql : " + e.getMessage());
 		} finally {
 			// fermer les elements dans l'ordre inverse on les a ouverts
 			try {
@@ -244,16 +229,14 @@ public class Db {
 					resultat.close();
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOG.debug("listerComptes : pb sql : " + e.getMessage());
 			}
 			try {
 				if (ste != null) {
 					ste.close();
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOG.debug("listerComptes : pb sql : " + e.getMessage());
 			}
 		}
 		return listeCpt;
@@ -320,16 +303,14 @@ public class Db {
 					resultat.close();
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOG.debug("authentifier : pb sql : " + e.getMessage());
 			}
 			try {
 				if (ste != null) {
 					ste.close();
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOG.debug("authentifier : pb sql : " + e.getMessage());
 			}
 		}
 		return client;
@@ -373,14 +354,14 @@ public class Db {
 				int id = resultat.getInt("id");
 				String libelle = resultat.getString("libelle");
 				Double montant = resultat.getDouble("montant");
-				Date dateOpe = new Date (resultat.getDate("date").getTime());
+				Date dateOpe = new Date(resultat.getDate("date").getTime());
 				int compteId = resultat.getInt("compteId");
 				Operation ope = new Operation(id, libelle, montant, dateOpe, compteId);
 				listeOper.add(ope);
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.debug("rechercherOperation : pb sql : " + e.getMessage());
 		} finally {
 			// fermer les elements dans l'ordre inverse on les a ouverts
 			try {
@@ -388,14 +369,14 @@ public class Db {
 					resultat.close();
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.debug("rechercherOperation : pb sql : " + e.getMessage());
 			}
 			try {
 				if (ste != null) {
 					ste.close();
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.debug("rechercherOperation : pb sql : " + e.getMessage());
 			}
 		}
 		return listeOper;
@@ -421,7 +402,7 @@ public class Db {
 				cpte = this.remplitCompte(resultat);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.debug("rechercherCompte : pb sql : " + e.getMessage());
 		} finally {
 			// fermer les elements dans l'ordre inverse on les a ouverts
 			try {
@@ -429,14 +410,14 @@ public class Db {
 					resultat.close();
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.debug("pb sql : " + e.getMessage());
 			}
 			try {
 				if (ste != null) {
 					ste.close();
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.debug("pb sql : " + e.getMessage());
 			}
 		}
 		return cpte;

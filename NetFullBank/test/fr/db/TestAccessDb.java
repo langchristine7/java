@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.naming.NamingException;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -37,8 +39,7 @@ public class TestAccessDb {
 		try {
 			this.db = new Db();
 			this.db.seConnecter();
-		} catch (SQLException | ClassNotFoundException e) {
-
+		} catch (SQLException | NamingException e) {
 			e.printStackTrace();
 		}
 
@@ -61,7 +62,7 @@ public class TestAccessDb {
 			clt1 = this.db.authentifier("df", "df");
 
 		} catch (Exception e) {
-			Assert.fail("Pas normal (" + e.getMessage() +")");
+			Assert.fail("Pas normal (" + e.getMessage() + ")");
 
 		}
 		Assert.assertNotNull("Le client ne doit pas etre null", clt1);

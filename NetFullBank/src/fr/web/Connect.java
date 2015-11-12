@@ -1,10 +1,9 @@
 package fr.web;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.Properties;
 
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,7 +24,7 @@ public abstract class Connect extends HttpServlet {
 	protected String pageVirement = "/comptes/virement.jsp";
 	protected String pageListeComptes = "/comptes/listeComptes.jsp";
 
-	private String propertiesFileName = "mesPreferences.properties";
+	// private String propertiesFileName = "mesPreferences.properties";
 	private final static Logger LOG = LogManager.getLogger(Connect.class);
 
 	public static void retourneAuLogin(HttpServletRequest request, HttpServletResponse response)
@@ -39,27 +38,30 @@ public abstract class Connect extends HttpServlet {
 			throws ServletException, IOException {
 
 		Db db = null;
-		Properties mesProperties = new Properties();
 
-		try (InputStream is = ServletLogin.class.getClassLoader().getResourceAsStream("mesPreferences.properties")) {
-			mesProperties.load(is);
-
-		} catch (IOException e) {
-			request.setAttribute("error", "Probleme de connexion, merci de contacter l'administrateur.");
-			Connect.LOG.error(
-					"Impossible de lire le fichier properties : " + this.propertiesFileName + " : " + e.getMessage());
-			Connect.retourneAuLogin(request, response);
-			return null;
-		}
-
-		String dbDriver = mesProperties.getProperty("db.driver");
-		String dbUrl = mesProperties.getProperty("db.url");
-		String dbLogin = mesProperties.getProperty("db.login");
-		String dbPwd = mesProperties.getProperty("db.password");
-
+		/*
+		 * Properties mesProperties = new Properties();
+		 * 
+		 * try (InputStream is =
+		 * ServletLogin.class.getClassLoader().getResourceAsStream(
+		 * "mesPreferences.properties")) { mesProperties.load(is);
+		 * 
+		 * } catch (IOException e) { request.setAttribute("error",
+		 * "Probleme de connexion, merci de contacter l'administrateur.");
+		 * Connect.LOG.error( "Impossible de lire le fichier properties : " +
+		 * this.propertiesFileName + " : " + e.getMessage());
+		 * Connect.retourneAuLogin(request, response); return null; }
+		 * 
+		 * 
+		 * String dbDriver = mesProperties.getProperty("db.driver"); String
+		 * dbUrl = mesProperties.getProperty("db.url"); String dbLogin =
+		 * mesProperties.getProperty("db.login"); String dbPwd =
+		 * mesProperties.getProperty("db.password");
+		 */
 		try {
-			db = new Db(dbDriver, dbUrl, dbLogin, dbPwd);
-		} catch (ClassNotFoundException e) {
+			db = new Db();
+
+		} catch (SQLException | NamingException e) {
 			request.setAttribute("error", "Probleme de connexion, merci de contacter l'administrateur.");
 			Connect.LOG.error("Impossible de creer objet DB : " + e.getMessage());
 			Connect.retourneAuLogin(request, response);
