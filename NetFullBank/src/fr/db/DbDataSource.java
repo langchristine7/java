@@ -29,10 +29,11 @@ import fr.banque.Operation;
 public class DbDataSource {
 
 	private DataSource dataSource = null;
-	private String nomDuDriver = "com.mysql.jdbc.Driver";
-	private String login = "root";
-	private String password = "root";
-	private String url = "jdbc:mysql://localhost:3306/banque";
+	
+//	private String nomDuDriver = "com.mysql.jdbc.Driver";
+//	private String login = "root";
+//	private String password = "root";
+//	private String url = "jdbc:mysql://localhost:3306/banque";
 	private Connection laConnexion = null;
 	private final static Logger LOG = LogManager.getLogger(DbDataSource.class);
 
@@ -42,33 +43,29 @@ public class DbDataSource {
 	}
 
 	public Connection getCxn() {
+		if (laConnexion == null) {
+			LOG.debug("getCxn : n'est pas connecte");
+			return null;
+		}
+		
 		return this.laConnexion;
 	}
 
-	public void seConnecter(String unLogin, String unPassword, String unUrl) throws SQLException {
-
-		// TODO refaire la connexion suivant le datasource, et changer les
-		// appels
-		this.login = unLogin;
-		this.password = unPassword;
-		this.url = unUrl;
-		this.seConnecter();
-	}
-
 	public void seConnecter() throws SQLException {
-		if (this.laConnexion == null) {
-			this.laConnexion = DriverManager.getConnection(this.url, this.login, this.password);
+		if (this.laConnexion == null) { 
+			this.laConnexion = dataSource.getConnection();
 		}
 	}
 
 	public void seDeconnecter() {
 		if (this.laConnexion == null) {
+			LOG.debug("seDeconnecter : n'etait pas connecte");
 			return;
 		}
 		try {
 			this.laConnexion.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			LOG.debug("seDeconnecter : pb pour fermer la connexion db" + e.getMessage());
 			e.printStackTrace();
 		}
 	}

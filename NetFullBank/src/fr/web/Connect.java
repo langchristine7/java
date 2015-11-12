@@ -45,7 +45,7 @@ public abstract class Connect extends HttpServlet {
 			mesProperties.load(is);
 
 		} catch (IOException e) {
-			request.setAttribute("error", "Problème de connexion, merci de contacter l'administrateur.");
+			request.setAttribute("error", "Probleme de connexion, merci de contacter l'administrateur.");
 			Connect.LOG.error(
 					"Impossible de lire le fichier properties : " + this.propertiesFileName + " : " + e.getMessage());
 			Connect.retourneAuLogin(request, response);
@@ -60,7 +60,7 @@ public abstract class Connect extends HttpServlet {
 		try {
 			db = new Db(dbDriver, dbUrl, dbLogin, dbPwd);
 		} catch (ClassNotFoundException e) {
-			request.setAttribute("error", "Problème de connexion, merci de contacter l'administrateur.");
+			request.setAttribute("error", "Probleme de connexion, merci de contacter l'administrateur.");
 			Connect.LOG.error("Impossible de creer objet DB : " + e.getMessage());
 			Connect.retourneAuLogin(request, response);
 			return null;
@@ -70,13 +70,13 @@ public abstract class Connect extends HttpServlet {
 			db.seConnecter();
 
 		} catch (SQLException e) {
-			request.setAttribute("error", "Problème de connexion, merci de contacter l'administrateur.");
+			request.setAttribute("error", "Probleme de connexion, merci de contacter l'administrateur.");
 			Connect.LOG.error("erreur seConnecter() : " + e.getMessage());
 			Connect.retourneAuLogin(request, response);
 			return null;
 
 		} catch (RuntimeException e) {
-			request.setAttribute("error", "Problème de connexion, merci de contacter l'administrateur.");
+			request.setAttribute("error", "Probleme de connexion, merci de contacter l'administrateur.");
 			Connect.LOG.error("erreur seConnecter() : " + e.getMessage());
 			Connect.retourneAuLogin(request, response);
 			return null;
@@ -88,6 +88,7 @@ public abstract class Connect extends HttpServlet {
 	protected void close(Db db) {
 		if (db != null) {
 			db.seDeconnecter();
+			LOG.debug("Deconnexion bdd");
 		}
 	}
 }
