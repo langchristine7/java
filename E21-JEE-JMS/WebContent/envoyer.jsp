@@ -13,7 +13,7 @@
 <form action="<c:url value="/envoyer"/>" method="post">
 	<div>
 		Message : 
-		<textarea name="message" id="message" cols="80" rows="6"></textarea>
+		<textarea name="textMessage" id="textMessage" cols="80" rows="6"></textarea>
 	</div>
 	<div><input type="submit" value="Envoyer"></div>
 </form>
