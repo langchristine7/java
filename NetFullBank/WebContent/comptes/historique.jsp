@@ -21,6 +21,7 @@
 </head>
 
 <body class="elBody" >
+<!--  jmeter:pagehistorique -->
 
 <div id="popupcalendar" class="text">&nbsp;</div>
 <form id="frmListeOperations" name="frmListeOperations" action="<c:url value="/historique"/>" method="post">

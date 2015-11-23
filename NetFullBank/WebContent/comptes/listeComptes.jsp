@@ -11,6 +11,7 @@
 </head>
 
 <body class="elBody">
+<!--  jmeter:pagelistecomptes -->
 
 <form id="frmListeCompte" name="frmListeCompte" action="<c:url value="/historique"/>" method="post">
 <input type="hidden" name="noCompte" id ="noCompte"/>

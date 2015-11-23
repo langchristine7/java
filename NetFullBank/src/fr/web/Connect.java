@@ -41,18 +41,18 @@ public abstract class Connect extends HttpServlet {
 
 		/*
 		 * Properties mesProperties = new Properties();
-		 * 
+		 *
 		 * try (InputStream is =
 		 * ServletLogin.class.getClassLoader().getResourceAsStream(
 		 * "mesPreferences.properties")) { mesProperties.load(is);
-		 * 
+		 *
 		 * } catch (IOException e) { request.setAttribute("error",
 		 * "Probleme de connexion, merci de contacter l'administrateur.");
 		 * Connect.LOG.error( "Impossible de lire le fichier properties : " +
 		 * this.propertiesFileName + " : " + e.getMessage());
 		 * Connect.retourneAuLogin(request, response); return null; }
-		 * 
-		 * 
+		 *
+		 *
 		 * String dbDriver = mesProperties.getProperty("db.driver"); String
 		 * dbUrl = mesProperties.getProperty("db.url"); String dbLogin =
 		 * mesProperties.getProperty("db.login"); String dbPwd =
@@ -60,6 +60,7 @@ public abstract class Connect extends HttpServlet {
 		 */
 		try {
 			db = new Db();
+			Connect.LOG.debug("getConnexion : creation de Db");
 
 		} catch (SQLException | NamingException e) {
 			request.setAttribute("error", "Probleme de connexion, merci de contacter l'administrateur.");
@@ -90,7 +91,7 @@ public abstract class Connect extends HttpServlet {
 	protected void close(Db db) {
 		if (db != null) {
 			db.seDeconnecter();
-			LOG.debug("Deconnexion bdd");
+			Connect.LOG.debug("Deconnexion bdd");
 		}
 	}
 }

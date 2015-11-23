@@ -32,7 +32,7 @@ public class ServletValiderVirement extends Connect {
 
 		if (client == null) {
 			request.setAttribute("error", "Merci de vous connecter");
-			this.retourneAuLogin(request, response);
+			Connect.retourneAuLogin(request, response);
 			return;
 		}
 

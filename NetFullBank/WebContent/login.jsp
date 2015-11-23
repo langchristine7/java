@@ -11,6 +11,8 @@
 </head>
 
 <body class="elBody" >
+<!--  jmeter:pagelogin -->
+
   <form id="frmLogin" name="frmLogin" action="<c:url value="/login"/>"  method="post">
     <table width="100%">
       <tr>

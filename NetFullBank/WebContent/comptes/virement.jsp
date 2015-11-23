@@ -11,6 +11,7 @@
 </head>
 
 <body  class="elBody">
+<!--  jmeter:pagevirement -->
 
 <form name="frmVirements" action="<c:url value="/validerVirement"/>"  method="post">
 

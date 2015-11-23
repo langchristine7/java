@@ -10,6 +10,8 @@
 </head>
 
 <body  class="elBody" >
+<!--  jmeter:pagemenu -->
+
     <table border="0" width="100%">
       <tr>
         <td align="center" valign="top">
