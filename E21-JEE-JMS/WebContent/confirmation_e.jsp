@@ -7,13 +7,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Confirmation</title>
-<h1>Confirmation : </h1>
-<div name="confirmation" id="confirmation"></div>
-<div></div>
+
+
 </head>
 <body>
 Le message a bien été envoyé :
-
-
+<h1>Confirmation : </h1>
+<div name="message" id="message"><c:out value="${message}"/>"</div>
+<div></br>
+</br><a href="<c:url value="/recevoir"/>">Voir les messages</a></div>
+<div></div>
 </body>
 </html>

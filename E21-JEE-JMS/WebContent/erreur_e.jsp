@@ -13,7 +13,7 @@
 <body>
 <h1>Erreur : </h1>
 Erreur :
-<div name="erreur" id="erreur"></div>
-<div><a href="/Envoyer">Réessayer</a></div>
+<div name="erreur" id="erreur"><c:out value="${erreur}"/>"</div>
+<div><a href="<c:url value="/envoyer"/>">Réessayer</a></div>
 </body>
 </html>

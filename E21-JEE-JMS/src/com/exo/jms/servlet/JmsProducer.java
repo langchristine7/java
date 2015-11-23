@@ -38,7 +38,7 @@ public class JmsProducer extends AbstractJmsServlet {
 		javax.jms.MessageProducer producer = null;
 
 		try {
-			connection = super.getJmsFactory().createConnection();
+			connection = this.getJmsFactory().createConnection();
 			connection.start();
 			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 			javax.jms.Destination destination = session.createQueue("jmsj2ee.queue");
@@ -51,13 +51,13 @@ public class JmsProducer extends AbstractJmsServlet {
 			JmsProducer.LOG.debug(message);
 			producer.send(message);
 
-			request.setAttribute("message", message);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("erreur_e.jsp");
+			request.setAttribute("message", text);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("confirmation_e.jsp");
 			dispatcher.forward(request, response);
 
 		} catch (JMSException e) {
-			JmsProducer.LOG.debug("Erreur connexion : " + e.getMessage());
-			request.setAttribute("erreur", "Erreur connexion : " + e.getMessage());
+			JmsProducer.LOG.debug("Erreur Producer : " + e.getMessage());
+			request.setAttribute("erreur", "Impossible d'envoyer le message : " + e.getMessage());
 			RequestDispatcher dispatcher = request.getRequestDispatcher("erreur_e.jsp");
 			dispatcher.forward(request, response);
 
